@@ -48,10 +48,10 @@ class ApiConstants {
   static const String changePassword = 'api/SICChangePwdCAPIs';
 
   // data
-  static const String getData = 'api/LayThongTinDuLieu';
+  static const String getData = 'api/LayThongTinDuLieuTG';
 
   //sync data
-  static const String sync = 'api/SyncData/';
+  static const String sync = 'api/SyncTGData/';
 
   //send error data
   static const String sendErrorData = 'api/LogErrorData/';

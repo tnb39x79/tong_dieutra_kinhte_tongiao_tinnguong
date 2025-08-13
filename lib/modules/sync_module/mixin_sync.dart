@@ -201,26 +201,22 @@ mixin SyncMixin {
       SyncModel syncData = SyncModel.fromJson(jsonDecode(request.body));
 
       if (syncData.responseCode == ApiConstants.responseSuccess) {
-        var coSoSuccess =
-            jsonDecode(request.body)["Data"]["CoSoSXKDData"] as List;
+       
         var coSoTGSuccess =
             jsonDecode(request.body)["Data"]["TonGiaoData"] as List;
 
-        var iDCoSos = coSoSuccess
-            .where((element) => element["ErrorMessage"] == null)
-            .map((e) => e['IDCoso'])
-            .toList();
+      
 
         var idCoSoTGs = coSoTGSuccess
             .where((element) => element["ErrorMessage"] == null)
             .map((e) => e['IDCoSo'])
             .toList();
 
-        developer.log('$iDCoSos \n$idCoSoTGs');
+       
 
-        bkCoSoSXKDMixProvider.updateSuccess(iDCoSos);
+        
         bkCoSoTonGiaoMixProvider.updateSuccess(idCoSoTGs);
-        phieuMauSanPhamMixProvider.updateSuccess(iDCoSos);
+     
         ResponseSyncModel responseSyncModel = ResponseSyncModel(
             isSuccess: true,
             responseCode: syncData.responseCode,

@@ -29,6 +29,31 @@ class CustomTheme {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
         buttonColor: primaryColor,
+        splashColor: splashColorButton,
+        focusColor: splashColorButton,
+        hoverColor: splashColorButton
+      ),
+      appBarTheme: const AppBarTheme(
+        color: secondPrimaryColor,
+        elevation: 0.0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent, // Status bar
+        ),
+        foregroundColor:primaryTextColor
+      ),
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+    );
+  }
+
+  static ThemeData get brownTheme {
+    return ThemeData(
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: backgroundColor,
+      fontFamily: inter,
+      buttonTheme: ButtonThemeData(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+        buttonColor: primaryColor,
       ),
       appBarTheme: const AppBarTheme(
         color: primaryColor,

@@ -10,6 +10,7 @@ class AppPermissiton {
     
     
     if (Platform.isIOS) {
+      
        if (await Permission.storage.request().isGranted) {
           return true;
         } else {

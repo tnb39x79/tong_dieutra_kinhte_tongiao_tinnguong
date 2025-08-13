@@ -29,16 +29,16 @@ class WidgetItemHeader extends StatelessWidget {
           child: Container(
               width: width,
               height: height,
+              decoration: BoxDecoration(
+                  color: isSelected ? primaryLightColor : primaryDarkColor,
+                  borderRadius: BorderRadius.circular(AppValues.borderLv3)),
               child: Image.asset(
                 icon,
                 color:
                     isSelected ? Colors.white : const Color(0xFFFFFFFF).withOpacity(0.65),
-              ),
-              decoration: BoxDecoration(
-                  color: isSelected ? primaryLightColor : primaryDarkColor,
-                  borderRadius: BorderRadius.circular(AppValues.borderLv3))),
+              )),
         ),
-        Text(name, style: styleSmallBold.copyWith(color: Colors.white)),
+        Text(name, style: styleSmallBold.copyWith(color: defaultPrimaryText)),
       ],
     );
   }

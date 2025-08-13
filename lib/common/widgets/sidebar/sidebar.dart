@@ -130,7 +130,7 @@ class SideBar extends StatelessWidget {
                                       ? primaryLightColor
                                       : questionGroups[index].enable!
                                           ? greyColor
-                                          : greyBulliet),
+                                          : greyBullet),
                               title: Text(tl),
                               selected: questionGroups[index].isSelected!,
                               selectedColor: primaryLightColor,

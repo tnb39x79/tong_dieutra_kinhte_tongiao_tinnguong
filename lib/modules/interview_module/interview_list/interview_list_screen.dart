@@ -44,27 +44,30 @@ class InterviewListScreen extends GetView<InterviewListController> {
             WidgetRowItem(
               title: 'un_interviewed'.trParams({
                 'param': (controller.currentMaDoiTuongDT ==
-                        '${AppDefine.maDoiTuongDT_07Mau}' || controller.currentMaDoiTuongDT ==
-                        '${AppDefine.maDoiTuongDT_07TB}')
+                            '${AppDefine.maDoiTuongDT_07Mau}' ||
+                        controller.currentMaDoiTuongDT ==
+                            '${AppDefine.maDoiTuongDT_07TB}')
                     ? 'coso'.tr
                     : 'commune'.tr,
               }),
               count: controller.countOfUnInterviewed.value,
               onPressed: () =>
                   controller.toInterViewListDetail(AppDefine.chuaPhongVan),
+              subTextColor: textDarkGreenColor,
             ),
             WidgetRowItem(
-              title: 'interviewed'.trParams({
-                'param': (controller.currentMaDoiTuongDT ==
-                        '${AppDefine.maDoiTuongDT_07Mau}' || controller.currentMaDoiTuongDT ==
-                        '${AppDefine.maDoiTuongDT_07TB}')
-                    ? 'coso'.tr
-                    : 'commune'.tr,
-              }),
-              count: controller.countOfInterviewed.value,
-              onPressed: () =>
-                  controller.toInterViewListDetail(AppDefine.dangPhongVan),
-            ),
+                title: 'interviewed'.trParams({
+                  'param': (controller.currentMaDoiTuongDT ==
+                              '${AppDefine.maDoiTuongDT_07Mau}' ||
+                          controller.currentMaDoiTuongDT ==
+                              '${AppDefine.maDoiTuongDT_07TB}')
+                      ? 'coso'.tr
+                      : 'commune'.tr,
+                }),
+                count: controller.countOfInterviewed.value,
+                onPressed: () =>
+                    controller.toInterViewListDetail(AppDefine.dangPhongVan),
+                subTextColor: textDarkGreenColor),
           ],
         ),
       );

@@ -52,7 +52,7 @@ class WidgetFieldInputCode extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLength: maxLength,
               controller: controller,
-              style:  (enable != null && enable != true )? styleSmall.copyWith(color: disabledblackText):styleSmall,
+              style:  (enable != null && enable != true )? styleSmall.copyWith(color: disabledBlackText):styleSmall,
               obscureText: isHideContent ?? false,
               enabled: enable ?? true,
               validator: validator,

@@ -45,7 +45,7 @@ class WidgetFieldInputWarning extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var styleCustomize = (enable != null && enable != true)
-        ? styleSmall.copyWith(color: disabledblackText)
+        ? styleSmall.copyWith(color: disabledBlackText)
         : styleSmall;
     // final NumberFormat numFormat = NumberFormat('###,##0.00', 'en_US');
     // final NumberFormat numSanitizedFormat = NumberFormat('en_US');

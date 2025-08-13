@@ -9,6 +9,8 @@ const fontXxSmall = 12.0;
 const fontSmall = 14.0;
 const fontMedium = 16.0;
 const fontLarge = 18.0;
+const fontXLarge = 20.0;
+const fontXXLarge = 24.0;
 
 const textHeightXx = 1.0;
 const textHeight = 1.7;
@@ -79,3 +81,9 @@ const styleLargeBold500 = TextStyle(
     height: textHeight,
     fontFamily: inter,
     fontWeight: FontWeight.w500);
+
+    const styleLargeDefaultBold = TextStyle(
+    fontSize: fontXLarge,
+    height: textHeight,
+    fontFamily: inter,
+    fontWeight: FontWeight.w900);

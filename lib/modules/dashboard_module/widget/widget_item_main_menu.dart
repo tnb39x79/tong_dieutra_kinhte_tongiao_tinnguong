@@ -19,11 +19,11 @@ class WidgetItemMainMenu extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(AppValues.padding),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: primaryColorMenuItem,
             borderRadius: BorderRadius.circular(AppValues.borderLv2),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.shade200,
+                color:primaryColorMenuItemShadow,
                 offset: const Offset(0, 10),
                 spreadRadius: 5,
                 blurRadius: 20,
@@ -36,7 +36,7 @@ class WidgetItemMainMenu extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               name,
-              style: styleSmallBold,
+              style: styleSmallBold.copyWith(color: defaultPrimaryText),
               textAlign: TextAlign.center,
             )
           ],

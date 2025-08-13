@@ -59,7 +59,7 @@ class SplashScreen extends GetView<SplashController> {
               opacity: controller.animate.value ? 1 : 0,
               child: Text(
                 'slogan'.tr,
-                style: styleLargeBold.copyWith(color: Colors.white,fontSize: 18),
+                style: styleLargeBold.copyWith(color:textLimeGreenColor,fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -75,7 +75,7 @@ class SplashScreen extends GetView<SplashController> {
               opacity: controller.animate.value ? 1 : 0,
               child: Text(
                 'slogan2'.tr,
-                style: styleLargeBold.copyWith(color: Colors.white,fontSize: 16),
+                style: styleLargeBold.copyWith(color: textLimeGreenColor,fontSize: 18),
                 textAlign: TextAlign.center,
               ),
             ),

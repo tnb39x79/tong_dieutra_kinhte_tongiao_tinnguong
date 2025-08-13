@@ -24,7 +24,7 @@ class WidgetButtonPrevious extends StatelessWidget {
       child: TextButton(
           onPressed: onPressed,
           style: ButtonStyle(
-            overlayColor: WidgetStateProperty.all(greyBorder),
+            overlayColor: WidgetStateProperty.all(secondPrimaryColor),
           ),
           child: Row(
             children: [

@@ -3,16 +3,18 @@ import 'package:get/get.dart';
 import 'package:gov_tongdtkt_tongiao/config/config.dart';
 
 class WidgetRowItem extends StatelessWidget {
-  const WidgetRowItem({
-    Key? key,
-    required this.title,
-    required this.count,
-    required this.onPressed,
-  }) : super(key: key);
+  const WidgetRowItem(
+      {Key? key,
+      required this.title,
+      required this.count,
+      required this.onPressed,
+      this.subTextColor})
+      : super(key: key);
 
   final String title;
   final int count;
   final Function() onPressed;
+  final Color? subTextColor;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class WidgetRowItem extends StatelessWidget {
     return const Icon(Icons.arrow_forward_ios_rounded, color: greyBorder);
   }
 
-  Widget _titleTop() {  
+  Widget _titleTop() {
     return Text(title, style: styleMediumBold);
   }
 
@@ -65,11 +67,13 @@ class WidgetRowItem extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: 'count'.tr,
-        style: styleMedium.copyWith(color: warningColor, fontWeight: FontWeight.w400),
+        style: styleMedium.copyWith(
+            color: subTextColor ?? warningColor, fontWeight: FontWeight.w400),
         children: <TextSpan>[
           TextSpan(
             text: '$count',
-            style: styleMediumBold.copyWith(color: warningColor),
+            style:
+                styleMediumBold.copyWith(color: subTextColor ?? warningColor),
           ),
         ],
       ),

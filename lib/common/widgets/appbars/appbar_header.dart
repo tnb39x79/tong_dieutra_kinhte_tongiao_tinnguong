@@ -37,12 +37,12 @@ class AppBarHeader extends StatelessWidget implements PreferredSizeWidget {
       actions: [actions ?? actionDefault()],
       // title: Text(getTitleAppBar(), style: styleMediumBold),
       title: (subTitle == null || subTitle == "")
-          ? Text(title!, style: styleMediumBold)
+          ? Text(title!, style: styleMediumBold.copyWith(color:primaryTextColor))
           : ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-              title: Text(title!, style: styleMediumBoldAppBarHeader),
+              title: Text(title!, style: styleMediumBoldAppBarHeader.copyWith(color:primaryTextColor)),
               subtitle:
-                  Text(subTitle!, style: const TextStyle(color: Colors.white)),
+                  Text(subTitle!, style: const TextStyle(color: primaryTextColor)),
               titleAlignment: ListTileTitleAlignment.center,
             ),
       leading: IconButton(

@@ -1,7 +1,7 @@
 final Map<String, String> viVN = {
 
   'slogan': 'TỔNG ĐIỀU TRA KINH TẾ',
-  'slogan2': 'TÔN GIÁO',
+  'slogan2': 'CƠ SỞ TÔN GIÁO',
   'login': 'Đăng nhập',
   'login_title': 'Điền tên đăng nhập và mật khẩu',
 

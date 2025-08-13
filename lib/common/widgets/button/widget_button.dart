@@ -25,7 +25,7 @@ class WidgetButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: ButtonStyle(
-            overlayColor: WidgetStateProperty.all(primaryDarkColor)),
+            overlayColor: WidgetStateProperty.all(splashColorButton)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

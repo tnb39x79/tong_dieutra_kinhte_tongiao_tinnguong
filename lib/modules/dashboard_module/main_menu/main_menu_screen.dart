@@ -6,7 +6,7 @@ import 'package:gov_tongdtkt_tongiao/config/config.dart';
 import 'package:gov_tongdtkt_tongiao/modules/modules.dart';
 
 class MainMenuScreen extends GetView<MainMenuController> {
-  const MainMenuScreen({Key? key}) : super(key: key);
+  const MainMenuScreen({super.key});
 
   // @override
   // Widget build(BuildContext context) {
@@ -61,12 +61,12 @@ class MainMenuScreen extends GetView<MainMenuController> {
           children: [
             Text(
                 '${controller.userModel.value.maDangNhap ?? ''} \n${controller.userModel.value.tenNguoiDung ?? ''}',
-                style: styleMediumBold),
+                style: styleMediumBold.copyWith(color: defaultPrimaryText)),
             Text(
                 'sesstion_servey'.trParams({
                   'param': AppPref.yearKdt > 0 ? AppPref.yearKdt.toString() : ''
                 }),
-                style: styleSmall),
+                style: styleSmall.copyWith(color: defaultPrimaryText)),
           ],
         ),
       ),
@@ -78,11 +78,9 @@ class MainMenuScreen extends GetView<MainMenuController> {
                   horizontal: AppValues.padding, vertical: 4),
               child: Column(
                 children: [
-                  Text('current_version'.tr),
-                  const Text(
-                    AppValues.versionApp,
-                    style: styleMedium,
-                  )
+                  Text('current_version'.tr,style: styleMedium.copyWith(color: defaultPrimaryText,fontWeight: FontWeight.w400),),
+                  Text(AppValues.versionApp,
+                      style: styleMedium.copyWith(color: defaultPrimaryText))
                 ],
               )),
         ),
