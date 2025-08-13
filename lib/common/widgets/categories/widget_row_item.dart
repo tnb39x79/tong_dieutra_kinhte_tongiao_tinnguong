@@ -4,17 +4,18 @@ import 'package:gov_tongdtkt_tongiao/config/config.dart';
 
 class WidgetRowItem extends StatelessWidget {
   const WidgetRowItem(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.count,
       required this.onPressed,
-      this.subTextColor})
-      : super(key: key);
+      this.subTextColor,
+      this.isShowSubText = true});
 
   final String title;
   final int count;
   final Function() onPressed;
   final Color? subTextColor;
+  final bool? isShowSubText;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class WidgetRowItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _titleTop(),
-        _titleBottom(),
+        if (isShowSubText == true) _titleBottom(),
       ],
     );
   }

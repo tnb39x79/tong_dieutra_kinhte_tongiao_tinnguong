@@ -1,22 +1,24 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gov_tongdtkt_tongiao/config/config.dart';
 
 class WidgetSubject extends StatelessWidget {
-  const WidgetSubject({
-    Key? key,
-    required this.index,
-    required this.onPressed,
-    required this.name,
-    this.address,
-    required this.questions,
-  }) : super(key: key);
+  const WidgetSubject(
+      {super.key,
+      required this.index,
+      required this.onPressed,
+      required this.name,
+      this.address,
+      required this.questions,
+      this.subTitleColor});
 
   final Function() onPressed;
   final String index;
   final String name;
   final String? address;
   final String questions;
+  final Color? subTitleColor;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class WidgetSubject extends StatelessWidget {
       children: [
         _titleTop(),
         _titleCenter(),
-        _titleBottom(),
+        if (questions != '') _titleBottom(),
       ],
     );
   }
@@ -79,8 +81,8 @@ class WidgetSubject extends StatelessWidget {
 
   Widget _titleBottom() {
     return Text(
-     questions.contains('Phiếu') ? questions:'Phiếu $questions',
-      style: styleMedium500.copyWith(color: warningColor),
+      questions,
+      style: styleMedium500.copyWith(color: subTitleColor ?? warningColor),
     );
   }
 

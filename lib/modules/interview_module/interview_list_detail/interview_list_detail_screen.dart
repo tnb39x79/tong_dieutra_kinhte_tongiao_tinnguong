@@ -86,63 +86,68 @@ class InterviewListDetailScreen extends GetView<InterviewListDetailController> {
   }
 
   SliverChildBuilderDelegate _listViewByCategories() {
-    if (controller.currentMaDoiTuongDT == '${AppDefine.maDoiTuongDT_07Mau}' ||
-        controller.currentMaDoiTuongDT == '${AppDefine.maDoiTuongDT_07TB}') {
-      if (controller.currentMaTinhTrangDT == '${AppDefine.chuaPhongVan}') {
-        return SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            var bkCoSo = controller.danhSachBKCoSoSXXKD[index];
-            String tenCs = '${bkCoSo.maXa} - ${bkCoSo.tenCoSo}';
-            return WidgetSubject(
-              index: '${index + 1}',
-              onPressed: () => controller.startInterView(index),
-              name: tenCs,
-              questions: controller.currentTenDoiTuongDT,
-            );
-          },
-          childCount: controller.danhSachBKCoSoSXXKD.length,
-        );
-      } else {
-        return SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            var bkCoSo = controller.danhSachBKCoSoSXXKD[index];
-            String tenCs = '${bkCoSo.maXa} - ${bkCoSo.tenCoSo}';
-            return WidgetSubject(
-              index: '${index + 1}',
-              onPressed: () => controller.startInterView(index),
-              name: tenCs,
-              questions: controller.currentTenDoiTuongDT,
-            );
-          },
-          childCount: controller.danhSachBKCoSoSXXKD.length,
-        );
-      }
+    // if (controller.currentMaDoiTuongDT == '${AppDefine.maDoiTuongDT_07Mau}' ||
+    //     controller.currentMaDoiTuongDT == '${AppDefine.maDoiTuongDT_07TB}') {
+    //   if (controller.currentMaTinhTrangDT == '${AppDefine.chuaPhongVan}') {
+    //     return SliverChildBuilderDelegate(
+    //       (BuildContext context, int index) {
+    //         var bkCoSo = controller.danhSachBKCoSoSXXKD[index];
+    //         String tenCs = '${bkCoSo.maXa} - ${bkCoSo.tenCoSo}';
+    //         return WidgetSubject(
+    //           index: '${index + 1}',
+    //           onPressed: () => controller.startInterView(index),
+    //           name: tenCs,
+    //           questions: controller.currentTenDoiTuongDT,
+    //           subTitleColor: textDarkGreenColor,
+    //         );
+    //       },
+    //       childCount: controller.danhSachBKCoSoSXXKD.length,
+    //     );
+    //   } else {
+    //     return SliverChildBuilderDelegate(
+    //       (BuildContext context, int index) {
+    //         var bkCoSo = controller.danhSachBKCoSoSXXKD[index];
+    //         String tenCs = '${bkCoSo.maXa} - ${bkCoSo.tenCoSo}';
+    //         return WidgetSubject(
+    //           index: '${index + 1}',
+    //           onPressed: () => controller.startInterView(index),
+    //           name: tenCs,
+    //           questions: controller.currentTenDoiTuongDT,
+    //           subTitleColor: textDarkGreenColor,
+    //         );
+    //       },
+    //       childCount: controller.danhSachBKCoSoSXXKD.length,
+    //     );
+    //   }
+    // } else {
+    if (controller.currentMaTinhTrangDT == '${AppDefine.chuaPhongVan}') {
+      return SliverChildBuilderDelegate(
+        (BuildContext context, int index) { 
+
+          return WidgetSubject(
+            index: '${index + 1}',
+            onPressed: () => controller.startInterView(index),
+            name: controller.danhSachBKTonGiao[index].tenCoSo ?? '',
+            questions: '',
+            subTitleColor: textDarkGreenColor,
+          );
+        },
+        childCount: controller.danhSachBKTonGiao.length,
+      );
     } else {
-      if (controller.currentMaTinhTrangDT == '${AppDefine.chuaPhongVan}') {
-        return SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            return WidgetSubject(
-              index: '${index + 1}',
-              onPressed: () => controller.startInterView(index),
-              name: controller.danhSachBKTonGiao[index].tenCoSo ?? '',
-              questions: controller.currentTenDoiTuongDT,
-            );
-          },
-          childCount: controller.danhSachBKTonGiao.length,
-        );
-      } else {
-        return SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            return WidgetSubject(
-              index: '${index + 1}',
-              onPressed: () => controller.startInterView(index),
-              name: controller.danhSachBKTonGiao[index].tenCoSo ?? '',
-              questions: controller.currentTenDoiTuongDT,
-            );
-          },
-          childCount: controller.danhSachBKTonGiao.length,
-        );
-      }
+      return SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          return WidgetSubject(
+            index: '${index + 1}',
+            onPressed: () => controller.startInterView(index),
+            name: controller.danhSachBKTonGiao[index].tenCoSo ?? '',
+            questions: '',
+            subTitleColor: textDarkGreenColor,
+          );
+        },
+        childCount: controller.danhSachBKTonGiao.length,
+      );
     }
   }
+  //}
 }

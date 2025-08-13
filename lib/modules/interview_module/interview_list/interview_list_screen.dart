@@ -67,7 +67,8 @@ class InterviewListScreen extends GetView<InterviewListController> {
                 count: controller.countOfInterviewed.value,
                 onPressed: () =>
                     controller.toInterViewListDetail(AppDefine.dangPhongVan),
-                subTextColor: textDarkGreenColor),
+                subTextColor: textDarkGreenColor,),
+                
           ],
         ),
       );

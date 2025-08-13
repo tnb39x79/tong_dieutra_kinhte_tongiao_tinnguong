@@ -43,7 +43,7 @@ class SideBar extends StatelessWidget {
                     "Nhóm câu hỏi",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Colors.white,
+                        color:primaryTextColor,
                         fontSize: fontMedium,
                         height: textHeight,
                         fontFamily: inter,
@@ -57,7 +57,7 @@ class SideBar extends StatelessWidget {
             Container(
               decoration: const BoxDecoration(color: Colors.transparent),
               margin: const EdgeInsets.all(0),
-              padding: const EdgeInsets.only(top: 6),
+              padding: const EdgeInsets.fromLTRB(3, 6,3,0),
               height: 60,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -67,7 +67,7 @@ class SideBar extends StatelessWidget {
                       drawerTitle!,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                          color: warningColor,
+                          color: textDarkGreenColor,
                           fontSize: fontMedium,
                           height: textHeight,
                           fontFamily: inter,
