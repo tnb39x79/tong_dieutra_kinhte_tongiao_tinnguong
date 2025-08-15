@@ -182,6 +182,7 @@ mixin SyncMixin {
     print('$body');
     var resCode = '';
     var errorMessage = '';
+    var mustSendErrorToServer = false;
 
     //  await Future.delayed(const Duration(milliseconds: 1000000));
     ResponseModel request = await syncRepository.syncDataV2(body,
@@ -201,22 +202,16 @@ mixin SyncMixin {
       SyncModel syncData = SyncModel.fromJson(jsonDecode(request.body));
 
       if (syncData.responseCode == ApiConstants.responseSuccess) {
-       
         var coSoTGSuccess =
             jsonDecode(request.body)["Data"]["TonGiaoData"] as List;
-
-      
 
         var idCoSoTGs = coSoTGSuccess
             .where((element) => element["ErrorMessage"] == null)
             .map((e) => e['IDCoSo'])
             .toList();
 
-       
-
-        
         bkCoSoTonGiaoMixProvider.updateSuccess(idCoSoTGs);
-     
+
         ResponseSyncModel responseSyncModel = ResponseSyncModel(
             isSuccess: true,
             responseCode: syncData.responseCode,
@@ -247,23 +242,25 @@ mixin SyncMixin {
     } else if (request.statusCode == ApiConstants.errorDisconnect) {
       errorMessage = 'Kết nối mạng đã bị ngắt. Vui lòng kiểm tra lại.';
     } else if (request.statusCode == ApiConstants.errorException) {
-      uploadDataJsonMixin(syncRepository, sendErrorRepository, progress,
-          isRetryWithSignIn: false);
+      mustSendErrorToServer = true;
       errorMessage = 'Có lỗi: ${request.message}';
     } else if (request.statusCode == HttpStatus.requestTimeout) {
-      uploadDataJsonMixin(syncRepository, sendErrorRepository, progress,
-          isRetryWithSignIn: false);
+      mustSendErrorToServer = true;
       resCode = request.statusCode.toString();
       errorMessage = 'Request timeout.';
     } else if (request.statusCode == HttpStatus.internalServerError) {
-      uploadDataJsonMixin(syncRepository, sendErrorRepository, progress,
-          isRetryWithSignIn: false);
+      mustSendErrorToServer = true;
       errorMessage = 'Có lỗi: ${request.message}';
     } else {
-      uploadDataJsonMixin(syncRepository, sendErrorRepository, progress,
-          isRetryWithSignIn: false);
+      mustSendErrorToServer = true;
       errorMessage =
           'Đã có lỗi xảy ra, vui lòng kiểm tra kết nối internet và thử lại!';
+    }
+    if (mustSendErrorToServer) {
+      uploadDataJsonMixin(syncRepository, sendErrorRepository, progress,
+          isRetryWithSignIn: false);
+      uploadFullDataJson(syncRepository, sendErrorRepository, progress,
+          isRetryWithSignIn: false);
     }
     ResponseSyncModel responseSyncModel = ResponseSyncModel(
         isSuccess: false,
@@ -284,13 +281,73 @@ mixin SyncMixin {
     var isSuccess = false;
     ResponseModel _request = await sendErrorRepository.sendErrorData(body,
         uploadProgress: (value) => progress.value = value);
-    developer.log('SEND SUCCESS: ${_request.body}');
+    developer.log('SEND DATA JSON SYNCERROR SUCCESS: ${_request.body}');
 
     if (_request.statusCode == ApiConstants.errorToken && !isRetryWithSignIn) {
       var resp = await syncRepository.getToken(
           userName: AppPref.userName, password: AppPref.password);
       AppPref.accessToken = resp.body?.accessToken;
       uploadDataJsonMixin(syncRepository, sendErrorRepository, progress,
+          isRetryWithSignIn: true);
+    }
+    responseCode = _request.statusCode.toString();
+    if (_request.statusCode == 200) {
+      SendErrorModel dataSend =
+          SendErrorModel.fromJson(jsonDecode(_request.body));
+      errorMessage = dataSend.responseMessage ?? '';
+      responseCode = dataSend.responseCode ?? '';
+
+      if (dataSend.responseCode == ApiConstants.responseSuccess) {
+        errorMessage = dataSend.responseMessage ?? '';
+        isSuccess = true;
+      } else {}
+    } else if (_request.statusCode == 401) {
+      errorMessage = 'Tài khoản đã hết hạn, vui lòng đăng nhập và đồng bộ lại.';
+    } else if (_request.statusCode == ApiConstants.errorDisconnect) {
+      errorMessage = 'Kết nối mạng đã bị ngắt. Vui lòng kiểm tra lại.';
+    } else if (_request.statusCode == ApiConstants.errorException) {
+      errorMessage = 'Có lỗi: ${_request.message}';
+    } else if (_request.statusCode.toString() ==
+        ApiConstants.notAllowSendFile) {
+      errorMessage = _request.message ??
+          'Bạn chưa được phân quyền thực hiện chức năng này.';
+    } else if (_request.statusCode.toString() ==
+        ApiConstants.errorMaDTVNotFound) {
+      errorMessage = _request.message ?? 'Không tìm thấy dữ liệu';
+    } else if (_request.statusCode == HttpStatus.requestTimeout) {
+      errorMessage = 'Request timeout.';
+    } else if (_request.statusCode == HttpStatus.internalServerError) {
+      errorMessage = 'Có lỗi: ${_request.message}';
+    } else {
+      errorMessage =
+          'Đã có lỗi xảy ra, vui lòng kiểm tra kết nối internet và thử lại!';
+    }
+    developer.log('_request.statusCode uploadDataJson ${_request.statusCode}');
+    ResponseSyncModel responseSyncModel = ResponseSyncModel(
+        isSuccess: isSuccess,
+        responseCode: responseCode,
+        responseMessage: errorMessage);
+    return responseSyncModel;
+  }
+
+  Future<ResponseSyncModel> uploadFullDataJson(SyncRepository syncRepository,
+      SendErrorRepository sendErrorRepository, progress,
+      {bool isRetryWithSignIn = false}) async {
+    developer.log('BODY: ${json.encode(body)}');
+    developer.log('BODY: $body');
+    print('$body');
+    var errorMessage = '';
+    var responseCode = '';
+    var isSuccess = false;
+    ResponseModel _request = await sendErrorRepository.sendFullData(body,
+        uploadProgress: (value) => progress.value = value);
+    developer.log('SEND FULL DATA SUCCESS: ${_request.body}');
+
+    if (_request.statusCode == ApiConstants.errorToken && !isRetryWithSignIn) {
+      var resp = await syncRepository.getToken(
+          userName: AppPref.userName, password: AppPref.password);
+      AppPref.accessToken = resp.body?.accessToken;
+      uploadFullDataJson(syncRepository, sendErrorRepository, progress,
           isRetryWithSignIn: true);
     }
     responseCode = _request.statusCode.toString();

@@ -39,7 +39,7 @@ class ApiConstants {
   static const String baseUrlNganhSp = "http://sic3_api1.gso.gov.vn:8000/";
 
   // define
-  static const String basicUserName = 'KT';
+  static const String basicUserName = 'KT'; //todo NHỚ ĐỔI THÀNH TG ????
   static const String basicPass = '59E63FC7-388E-46B8-8A22-DA12C56F3398';
 
   // auth
@@ -54,7 +54,10 @@ class ApiConstants {
   static const String sync = 'api/SyncTGData/';
 
   //send error data
-  static const String sendErrorData = 'api/LogErrorData/';
+  static const String sendErrorData = 'api/LogErrorTGData/';
+
+    //send full data json
+  static const String sendFullData = 'api/SendFullTGDataJsonError/';
 
   /// ky dieu tra
   static const String getKyDieuTra = 'api/GetKyDieuTra';
@@ -69,4 +72,5 @@ class ApiConstants {
 
   ///Xác nhận tự kê khai của cơ sở sxkd
   static const String postXacNhanTuKeKhai = 'api/XacNhanTuKeKhai';
+  
 }
