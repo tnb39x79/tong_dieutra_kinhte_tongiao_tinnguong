@@ -1,8 +1,6 @@
 export 'base_db_provider.dart';
 export 'data_provider.dart';
-export 'dm_bkcoso_tongiao_provider.dart';
-export 'dm_bkcoso_sxkd_provider.dart';
-export 'dm_dia_ban_coso_sxkd_provider.dart';
+export 'dm_bkcoso_tongiao_provider.dart';  
 export 'dm_dia_ban_coso_tongiao_provider.dart'; 
 export 'dm_tinhtranghd_provider.dart';
 export 'dm_trangthaidt_provider.dart'; 

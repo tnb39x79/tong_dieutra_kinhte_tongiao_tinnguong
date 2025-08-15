@@ -28,20 +28,21 @@ class InterviewLocationListScreen extends GetView<InterviewLocationListControlle
   }
 
   Widget _buildBody() {
-    return ListView.builder(
-      itemCount: controller.diaBanCoSoSXKDs.length,
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.only(top: AppValues.padding),
-      itemBuilder: (context, index) {
-        return WidgetLocationItem(
-          index: '${index + 1}',
-          title:
-              '${controller.diaBanCoSoSXKDs[index].maDiaBan} - ${controller.diaBanCoSoSXKDs[index].maXa}',
-          vilage: controller.diaBanCoSoSXKDs[index].tenDiaBan ?? '',
-          onPressed: () => controller.onPressItem(index),
-        );
-      },
-    );
+    // return ListView.builder(
+    //   itemCount: controller.diaBanCoSoSXKDs.length,
+    //   shrinkWrap: true,
+    //   physics: const BouncingScrollPhysics(),
+    //   padding: const EdgeInsets.only(top: AppValues.padding),
+    //   itemBuilder: (context, index) {
+    //     return WidgetLocationItem(
+    //       index: '${index + 1}',
+    //       title:
+    //           '${controller.diaBanCoSoSXKDs[index].maDiaBan} - ${controller.diaBanCoSoSXKDs[index].maXa}',
+    //       vilage: controller.diaBanCoSoSXKDs[index].tenDiaBan ?? '',
+    //       onPressed: () => controller.onPressItem(index),
+    //     );
+    //   },
+    // );
+    return SizedBox();
   }
 }

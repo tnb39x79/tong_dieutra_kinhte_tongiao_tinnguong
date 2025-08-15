@@ -4,9 +4,7 @@ import 'package:gov_tongdtkt_tongiao/modules/dashboard_module/download_model_ai/
 import 'package:gov_tongdtkt_tongiao/modules/introduce_module/splash/splash.dart';
 import 'package:gov_tongdtkt_tongiao/modules/modules.dart';
 import 'package:gov_tongdtkt_tongiao/modules/progress_module/progress_list/progress_list_binding.dart';
-import 'package:gov_tongdtkt_tongiao/modules/progress_module/progress_list/progress_list_screen.dart';
-import 'package:gov_tongdtkt_tongiao/modules/question_module/question_no07/question_no07_binding.dart';
-import 'package:gov_tongdtkt_tongiao/modules/question_module/question_no07/question_no07_screen.dart';
+import 'package:gov_tongdtkt_tongiao/modules/progress_module/progress_list/progress_list_screen.dart'; 
 import 'package:gov_tongdtkt_tongiao/modules/sync_module/sync_module.dart';
 
 part 'app_routes.dart';

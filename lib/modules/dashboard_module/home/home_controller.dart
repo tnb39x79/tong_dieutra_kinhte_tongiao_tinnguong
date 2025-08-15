@@ -7,35 +7,27 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:gov_tongdtkt_tongiao/config/constants/app_define.dart';
 import 'package:gov_tongdtkt_tongiao/modules/sync_module/mixin_sync.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/provider/ct_dm_hoatdong_logistic_provider.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/provider/ct_dm_nhomnganh_vcpa_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_bkcoso_sxkd_nganh_sanpham_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_cokhong_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_dantoc_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_gioitinh_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_linhvuc_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_mota_sanpham_provider.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p07mau.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p07mau_dm.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p07mau.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p08.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p08dm.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/tg_dm_loai_tongiao_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/xacnhan_logic_provider.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_ct_dm_cap.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_ct_dm_quoctich.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_ct_dm_hoatdong_logistic.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_data.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm07mau.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm08.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_sxkd.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_sxkd_nganh_sanpham.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_tongiao.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_cokhong.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dantoc.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dia_ban_coso_sxkd.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dia_ban_coso_tongiao.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_gioitinh.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm.dart'; 
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm08.dart'; 
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_tongiao.dart'; 
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dia_ban_coso_tongiao.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_linhvuc.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_mota_sanpham.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_p07mau.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_mota_sanpham.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_p08.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_user_info.dart';
 import 'package:gov_tongdtkt_tongiao/resource/model/reponse/response_sync_model.dart';
@@ -76,11 +68,9 @@ class HomeController extends BaseController with SyncMixin {
   ///Provider
   ///DB
   final dataProvider = DataProvider();
-  final bkCoSoTonGiaoProvider = BKCoSoTonGiaoProvider();
-  final bkCoSoSXKDProvider = BKCoSoSXKDProvider();
+  final bkCoSoTonGiaoProvider = BKCoSoTonGiaoProvider(); 
   final bkCoSoSXKDNganhSanPhamProvider = BKCoSoSXKDNganhSanPhamProvider();
-  final diaBanCoSoTonGiaoProvider = DiaBanCoSoTonGiaoProvider();
-  final diaBanCoSoSXKDProvider = DiaBanCoSoSXKDProvider();
+  final diaBanCoSoTonGiaoProvider = DiaBanCoSoTonGiaoProvider(); 
   final dmTinhTrangHDProvider = DmTinhTrangHDProvider();
   final dmTrangThaiDTProvider = DmTrangThaiDTProvider();
   final dmCoKhongProvider = DmCoKhongProvider();
@@ -94,18 +84,9 @@ class HomeController extends BaseController with SyncMixin {
   //final dmDiaDiemSXKDProvider = CTDmDiaDiemSXKDProvider();
   // final dmTongHopKQProvider = DmTongHopKQProvider();
   final xacNhanLogicProvider = XacNhanLogicProvider();
-
-  ///Phiếu Cá thể mẫu
-  ///thieeus dm_cap, dm hoat dong logistic
-  final ctDmCapProvider = DmCapProvider();
-  final ctDmHoatDongLogisticProvider = CTDmHoatDongLogisticProvider();
-  final ctDmDiaDiemSXKDProvider = CTDmDiaDiemSXKDProvider();
-  final ctDmLinhVucProvider = CTDmLinhVucProvider();
-  final ctDmLoaiDiaDiemProvider = CTDmLoaiDiaDiemProvider();
-  final ctDmNhomNganhVcpaProvider = CTDmNhomNganhVcpaProvider();
-  final dmQuocTichProvider = DmQuocTichProvider();
-  final ctDmTinhTrangDKKDProvider = CTDmTinhTrangDKKDProvider();
-  final ctDmTrinhDoChuyenMonProvider = CTDmTrinhDoChuyenMonProvider();
+ 
+  final ctDmHoatDongLogisticProvider = CTDmHoatDongLogisticProvider(); 
+  final ctDmNhomNganhVcpaProvider = CTDmNhomNganhVcpaProvider(); 
   final dmMotaSanphamProvider = DmMotaSanphamProvider();
   final dmLinhvucProvider = DmLinhvucProvider();
 
@@ -582,36 +563,11 @@ class HomeController extends BaseController with SyncMixin {
   }
 
   Future insertDanhMucPhieuMau(DataModel bodyData, String dtSaveDB) async {
-    // if (AppPref.isFistInstall == 0) {
-    List<TableDmCap> dmCap = TableData.toListCTDmCaps(bodyData.ctDmCap);
+   
     List<TableCTDmHoatDongLogistic> dmHoatDongLogistic =
         TableData.toListCTDmHoatDongLogistics(bodyData.ctDmHoatDongLogistic);
-    List<TableCTDmDiaDiemSXKD> dmDiaDiemSxkd =
-        TableData.toListCTDiaDiemSXKDs(bodyData.ctDmDiaDiemSXKDDtos);
-    List<TableCTDmLoaiDiaDiem> dmLoaiDiaDiem =
-        TableData.toListCTLoaiDiaDiems(bodyData.ctDmLoaiDiaDiem);
-
-    List<TableCTDmLinhVuc> dmLinhVuc =
-        TableData.toListCTLinhVucs(bodyData.ctDmLinhVuc);
-    List<TableCTDmTinhTrangDKKD> dmTinhTrangSXKD =
-        TableData.toListCTDmTinhTrangSXKDs(bodyData.ctDmTinhTrangDKKD);
-    List<TableCTDmTrinhDoChuyenMon> dmTrinhDoChuyenMon =
-        TableData.toListCTDmTrinhDoChuyenMons(bodyData.ctDmTrinhDoChuyenMon);
-    List<TableCTDmQuocTich> dmQuocTich =
-        TableData.toListCTDmQuocTichs(bodyData.ctDmQuocTich);
-
-    await ctDmCapProvider.insert(dmCap, dtSaveDB);
-    await ctDmHoatDongLogisticProvider.insert(dmHoatDongLogistic, dtSaveDB);
-    await ctDmDiaDiemSXKDProvider.insert(dmDiaDiemSxkd, dtSaveDB);
-    await ctDmLoaiDiaDiemProvider.insert(dmLoaiDiaDiem, dtSaveDB);
-
-    await ctDmLinhVucProvider.insert(dmLinhVuc, dtSaveDB);
-    await ctDmTinhTrangDKKDProvider.insert(dmTinhTrangSXKD, dtSaveDB);
-    await ctDmTrinhDoChuyenMonProvider.insert(dmTrinhDoChuyenMon, dtSaveDB);
-    await dmQuocTichProvider.insert(dmQuocTich, dtSaveDB);
-    //  }
-
-//export 'ct_dm_nhomnganh_vcpa_provider.dart';
+      
+    await ctDmHoatDongLogisticProvider.insert(dmHoatDongLogistic, dtSaveDB); 
   }
 
   Future insertDmNhomNganhVcpa() async {
@@ -710,11 +666,9 @@ class HomeController extends BaseController with SyncMixin {
   Future initProvider() async {
     await dataProvider.init();
     await doiTuongDieuTraProvider.init();
-    await bkCoSoTonGiaoProvider.init();
-    await bkCoSoSXKDProvider.init();
+    await bkCoSoTonGiaoProvider.init(); 
     await bkCoSoSXKDNganhSanPhamProvider.init();
-    await diaBanCoSoTonGiaoProvider.init();
-    await diaBanCoSoSXKDProvider.init();
+    await diaBanCoSoTonGiaoProvider.init(); 
     await userInfoProvider.init();
     await dmTinhTrangHDProvider.init();
     await dmTrangThaiDTProvider.init();
@@ -724,15 +678,8 @@ class HomeController extends BaseController with SyncMixin {
 
     await xacNhanLogicProvider.init();
 
-    ///DM Phiếu 07 mau
-    await ctDmCapProvider.init();
-    await ctDmHoatDongLogisticProvider.init();
-    await ctDmLinhVucProvider.init();
-    await ctDmDiaDiemSXKDProvider.init();
-    await ctDmLoaiDiaDiemProvider.init();
-    await dmQuocTichProvider.init();
-    await ctDmTinhTrangDKKDProvider.init();
-    await ctDmTrinhDoChuyenMonProvider.init();
+    ///DM Phiếu 07 mau 
+    await ctDmHoatDongLogisticProvider.init(); 
     await ctDmNhomNganhVcpaProvider.init();
     await dmMotaSanphamProvider.init();
     await dmLinhvucProvider.init();

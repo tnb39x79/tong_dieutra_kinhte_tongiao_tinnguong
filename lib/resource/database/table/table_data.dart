@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:gov_tongdtkt_tongiao/config/constants/app_define.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_ct_dm_cap.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_ct_dm_quoctich.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_ct_dm_hoatdong_logistic.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_ct_dm_nhomnganh_vcpa.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_cokhong.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dantoc.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dia_ban_coso_sxkd.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dantoc.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dia_ban_coso_tongiao.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_gioitinh.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_linhvuc.dart';
@@ -22,8 +21,7 @@ import 'package:gov_tongdtkt_tongiao/resource/model/store/investigate_object_mod
 import 'package:gov_tongdtkt_tongiao/resource/model/store/investigate_status_model.dart';
 import 'package:gov_tongdtkt_tongiao/resource/model/store/nhomnhanh_vcpa_model.dart';
 import 'package:gov_tongdtkt_tongiao/resource/model/subject/subject_model.dart';
-
-import 'table_dm07mau.dart';
+ 
 import 'table_dm08.dart';
 
 ///Chưa danh sánh câu hỏi của mỗi phiếu
@@ -113,23 +111,7 @@ class TableData {
     }
     return danhSachDoiTuongDT;
   }
-
-  ///
-  ///Danh sách ĐỊA BÀN CƠ SỞ SẢN XUẤT KINH DOANH
-  static List<TableDmDiaBanCosoSxkd> toListDiaBanCoSoSXKDs(dynamic json) {
-    List<SubjectModel> subject = SubjectModel.listFromJson(json);
-    List<TableDmDiaBanCosoSxkd> danhSachDiaBan = [];
-
-    for (var element in subject) {
-      if (element.danhSachDiaBanCSSXKD != null) {
-        danhSachDiaBan.addAll(List<TableDmDiaBanCosoSxkd>.from(element
-            .danhSachDiaBanCSSXKD
-            .map((model) => TableDmDiaBanCosoSxkd.fromJson(model))));
-      }
-    }
-    return danhSachDiaBan;
-  }
-
+ 
   ///Danh sách xã/phường thị trấn
   static List<TableDmDiaBanTonGiao> toListDiaBanTonGiaos(dynamic json) {
     List<SubjectModel> subject = SubjectModel.listFromJson(json);
@@ -210,15 +192,7 @@ class TableData {
 
   /*************/
   ///BEGIN::Danh mục cho phiếu 07 mẫu
-  static List<TableDmCap> toListCTDmCaps(dynamic json) {
-    List<DmCommonModel> subject = DmCommonModel.listFromJson(json);
-    List<TableDmCap> dm = [];
-
-    for (var element in subject) {
-      dm.add(TableDmCap(id: 0, ma: element.ma, ten: element.ten));
-    }
-    return dm;
-  }
+ 
 
   static List<TableCTDmHoatDongLogistic> toListCTDmHoatDongLogistics(
       dynamic json) {
@@ -231,18 +205,7 @@ class TableData {
     }
     return dm;
   }
-
-  static List<TableCTDmDiaDiemSXKD> toListCTDiaDiemSXKDs(dynamic json) {
-    List<BusinessLocationModel> subject =
-        BusinessLocationModel.listFromJson(json);
-    List<TableCTDmDiaDiemSXKD> dm = [];
-
-    for (var element in subject) {
-      dm.add(TableCTDmDiaDiemSXKD(
-          id: 0, ma: element.ma, ten: element.ten, ghiRo: element.ghiRo));
-    }
-    return dm;
-  }
+ 
 
   static List<TableCTDmHoatDongLogistic> toListCTHoatDongLogistics(
       dynamic json) {
@@ -255,63 +218,8 @@ class TableData {
     }
     return dsDiaDiem;
   }
-
-  static List<TableCTDmLinhVuc> toListCTLinhVucs(dynamic json) {
-    List<DmCommonModel> subject = DmCommonModel.listFromJson(json);
-    List<TableCTDmLinhVuc> dsDiaDiem = [];
-
-    for (var element in subject) {
-      dsDiaDiem.add(TableCTDmLinhVuc(id: 0, ma: element.ma, ten: element.ten));
-    }
-    return dsDiaDiem;
-  }
-
-  static List<TableCTDmLoaiDiaDiem> toListCTLoaiDiaDiems(dynamic json) {
-    List<DmCommonModel> subject = DmCommonModel.listFromJson(json);
-    List<TableCTDmLoaiDiaDiem> dsDiaDiem = [];
-
-    for (var element in subject) {
-      dsDiaDiem
-          .add(TableCTDmLoaiDiaDiem(id: 0, ma: element.ma, ten: element.ten));
-    }
-    return dsDiaDiem;
-  }
-
-  static List<TableCTDmQuocTich> toListCTDmQuocTichs(dynamic json) {
-    List<DmQuocTichModel> subject = DmQuocTichModel.listFromJson(json);
-    List<TableCTDmQuocTich> dsDiaDiem = [];
-
-    for (var element in subject) {
-      dsDiaDiem.add(TableCTDmQuocTich(
-          id: 0,
-          maQuocTich: element.maQuocTich,
-          tenQuocTich: element.tenQuocTich));
-    }
-    return dsDiaDiem;
-  }
-
-  static List<TableCTDmTinhTrangDKKD> toListCTDmTinhTrangSXKDs(dynamic json) {
-    List<DmCommonModel> subject = DmCommonModel.listFromJson(json);
-    List<TableCTDmTinhTrangDKKD> dsDiaDiem = [];
-
-    for (var element in subject) {
-      dsDiaDiem
-          .add(TableCTDmTinhTrangDKKD(id: 0, ma: element.ma, ten: element.ten));
-    }
-    return dsDiaDiem;
-  }
-
-  static List<TableCTDmTrinhDoChuyenMon> toListCTDmTrinhDoChuyenMons(
-      dynamic json) {
-    List<DmCommonModel> subject = DmCommonModel.listFromJson(json);
-    List<TableCTDmTrinhDoChuyenMon> dsDiaDiem = [];
-
-    for (var element in subject) {
-      dsDiaDiem.add(
-          TableCTDmTrinhDoChuyenMon(id: 0, ma: element.ma, ten: element.ten));
-    }
-    return dsDiaDiem;
-  }
+  
+ 
 
   static List<TableCTDmNhomNganhVcpa> toListNganhVcpas(dynamic json) {
     List<NhomnhanhVcpaModel> subject = NhomnhanhVcpaModel.listFromJson(json);

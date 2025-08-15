@@ -11,8 +11,7 @@ import 'package:gov_tongdtkt_tongiao/common/widgets/dialogs/dialog_widget.dart';
 import 'package:gov_tongdtkt_tongiao/config/constants/app_colors.dart';
 import 'package:gov_tongdtkt_tongiao/modules/modules.dart';
 import 'package:gov_tongdtkt_tongiao/modules/sync_module/sync_module.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_tongiao.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_sxkd.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_tongiao.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/model/sync/sync_result.dart';
 import 'package:gov_tongdtkt_tongiao/resource/resource.dart';
 import 'package:gov_tongdtkt_tongiao/common/utils/utils.dart';
@@ -28,12 +27,10 @@ class SyncController extends BaseController with SyncMixin {
   final SendErrorRepository sendErrorRepository;
 
   final MainMenuController mainMenuController = Get.find();
-
-  final bKCoSoSXKDProvider = BKCoSoSXKDProvider();
+ 
   final bKCoSoTonGiaoProvider = BKCoSoTonGiaoProvider();
   final doiTuongDieuTraProvider = DmDoiTuongDieuTraProvider();
-
-  final danhSachBKCoSoSXKDInterviewed = <TableBkCoSoSXKD>[].obs;
+ 
   final danhSachBKDiabanHoInterviewed = <TableBkTonGiao>[].obs;
 
   final progress = 0.0.obs;

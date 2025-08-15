@@ -12,7 +12,7 @@
                 "--flavor",
                 "dev",
                 "--dart-define",
-                "BASE_API=http://api_cathe_thidiemtdtkt2026.gso.gov.vn/"
+                "BASE_API=http://10.13.1.139:8189/"
             ],
         },
         {

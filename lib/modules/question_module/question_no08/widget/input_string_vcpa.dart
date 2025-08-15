@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gov_tongdtkt_tongiao/common/common.dart';
-import 'package:gov_tongdtkt_tongiao/modules/question_module/question_no07/widget/widget_field_input_vcpa.dart';
+import 'package:gov_tongdtkt_tongiao/modules/question_module/question_no08/widget/widget_field_input_vcpa.dart';
 import 'package:gov_tongdtkt_tongiao/resource/model/model.dart';
 
 class InputStringVcpa extends StatefulWidget {

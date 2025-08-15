@@ -19,12 +19,12 @@ import 'package:gov_tongdtkt_tongiao/config/config.dart';
 import 'package:gov_tongdtkt_tongiao/modules/modules.dart';
 
 import 'package:gov_tongdtkt_tongiao/modules/question_module/question_utils.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/provider/ct_dm_hoatdong_logistic_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_cokhong_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_dantoc_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_gioitinh_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_linhvuc_provider.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_mota_sanpham_provider.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p07mau_dm.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_mota_sanpham_provider.dart'; 
 
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p08.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p08dm.dart';

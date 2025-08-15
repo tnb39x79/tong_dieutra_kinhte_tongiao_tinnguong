@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:gov_tongdtkt_tongiao/common/utils/utils.dart';
+import 'package:gov_tongdtkt_tongiao/resource/model/sync/file_model.dart';
 import 'package:gov_tongdtkt_tongiao/resource/resource.dart';
 
 import 'send_error_provider.dart';
@@ -42,14 +43,14 @@ class SendErrorRepository {
     }
   }
 
-  Future<ResponseModel<String>> sendFullData(Map body,
+  Future<ResponseModel<String>> sendFullData(FileModel body,
       {Function(double)? uploadProgress}) async {
     if (NetworkService.connectionType == Network.none) {
       return ResponseModel.withDisconnect();
     }
     try {
       final data =
-          await provider.sendErrorData(body, uploadProgress: uploadProgress);
+          await provider.sendFullData(body, uploadProgress: uploadProgress);
       if (data.statusCode == ApiConstants.success) {
         return ResponseModel(
           statusCode: ApiConstants.success,

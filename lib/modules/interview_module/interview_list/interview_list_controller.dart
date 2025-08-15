@@ -22,7 +22,7 @@ class InterviewListController extends BaseController {
   static const maXaKey = 'maXa';
   static const tenDoiTuongDTKey = "tenDoiTuongDT";
 
-  BKCoSoSXKDProvider bkCoSoSXKDProvider = BKCoSoSXKDProvider();
+ 
   BKCoSoTonGiaoProvider bkCoSoTonGiaoProvider = BKCoSoTonGiaoProvider();
 
   final countOfUnInterviewed = 0.obs;

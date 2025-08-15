@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gov_tongdtkt_tongiao/config/constants/app_colors%20copy.dart';
 
 class LoadingFullScreen extends StatelessWidget {
   final Widget child;
@@ -37,7 +38,8 @@ class _LoadingWidget extends StatelessWidget {
       alignment: Alignment.center,
       child: const Center(
         child: SpinKitSquareCircle(
-          color: Colors.blue,
+          color: primaryColor
+          ,
           size: 55,
         ),
       ),

@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:gov_tongdtkt_tongiao/config/config.dart';
-import 'package:gov_tongdtkt_tongiao/modules/modules.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_dia_ban_coso_sxkd.dart';
+import 'package:gov_tongdtkt_tongiao/modules/modules.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/resource.dart';
 import 'package:gov_tongdtkt_tongiao/routes/routes.dart';
 
@@ -15,10 +14,10 @@ class InterviewLocationListController extends BaseController {
   String currentMaDoiTuongDT = Get.parameters[maDoiTuongDTKey]!;
   String currentTenDoiTuongDT = Get.parameters[tenDoiTuongDTKey]!;
   // db provider
-  final diaBanCoSoSXKDProvider = DiaBanCoSoSXKDProvider();
+//  final diaBanCoSoSXKDProvider = DiaBanCoSoSXKDProvider();
 
   //RX
-  final diaBanCoSoSXKDs = <TableDmDiaBanCosoSxkd>[].obs;
+  //final diaBanCoSoSXKDs = <TableDmDiaBanCosoSxkd>[].obs;
 
   dynamic data;
 
@@ -36,20 +35,20 @@ class InterviewLocationListController extends BaseController {
   }
 
   void onPressItem(int index) {
-    Get.toNamed(AppRoutes.interviewList, parameters: {
-      InterviewListController.maDoiTuongDTKey: currentMaDoiTuongDT,
-      InterviewListController.tenDoiTuongDTKey: currentTenDoiTuongDT,
-      InterviewListController.maDiaBanKey: diaBanCoSoSXKDs[index].maDiaBan!,
-      InterviewListController.maXaKey: diaBanCoSoSXKDs[index].maXa!,
-    });
+    // Get.toNamed(AppRoutes.interviewList, parameters: {
+    //   InterviewListController.maDoiTuongDTKey: currentMaDoiTuongDT,
+    //   InterviewListController.tenDoiTuongDTKey: currentTenDoiTuongDT,
+    //   InterviewListController.maDiaBanKey: diaBanCoSoSXKDs[index].maDiaBan!,
+    //   InterviewListController.maXaKey: diaBanCoSoSXKDs[index].maXa!,
+    // });
   }
 
   Future getCoSoSXKD() async {
-    List<Map> map = await diaBanCoSoSXKDProvider.selectByMaPhieu(int.parse(currentMaDoiTuongDT!));
-    diaBanCoSoSXKDs.clear();
-    for (var element in map) {
-      diaBanCoSoSXKDs.add(TableDmDiaBanCosoSxkd.fromJson(element));
-    }
+    // List<Map> map = await diaBanCoSoSXKDProvider.selectByMaPhieu(int.parse(currentMaDoiTuongDT!));
+    // diaBanCoSoSXKDs.clear();
+    // for (var element in map) {
+    //   diaBanCoSoSXKDs.add(TableDmDiaBanCosoSxkd.fromJson(element));
+    // }
   }
 
   @override

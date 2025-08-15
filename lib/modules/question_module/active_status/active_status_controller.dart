@@ -17,8 +17,7 @@ import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p07mau.
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p08.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/xacnhan_logic_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/filed_common.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_sxkd.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_tongiao.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_p07mau.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_phieu_08_tongiao.dart';

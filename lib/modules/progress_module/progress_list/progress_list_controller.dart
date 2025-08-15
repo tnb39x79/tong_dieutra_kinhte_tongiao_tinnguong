@@ -11,8 +11,7 @@ class ProgressListController extends BaseController {
       DmDoiTuongDieuTraProvider();
   final doiTuongDTs = <TableDoiTuongDieuTra>[].obs;
   final progressList = <ProgressModel>[].obs;
-
-  BKCoSoSXKDProvider bkCoSoSXKDProvider = BKCoSoSXKDProvider();
+ 
   BKCoSoTonGiaoProvider bkCoSoTonGiaoProvider = BKCoSoTonGiaoProvider();
 
   // final countPhieuMauInterviewed = 0.obs;
@@ -69,13 +68,7 @@ class ProgressListController extends BaseController {
       ProgressModel progressModel = ProgressModel();
       progressModel.maDoiTuongDT = maDoiTuongDT;
       progressModel.tenDoiTuongDT = tenDoiTuongDT;
-      progressModel.moTaDoiTuongDT = moTa;
-      progressModel.countPhieuInterviewed =
-          await bkCoSoSXKDProvider.countOfInterviewedAll(maDoiTuongDT) ?? 0;
-      progressModel.countPhieuUnInterviewed =
-          await bkCoSoSXKDProvider.countOfUnInterviewedAll(maDoiTuongDT) ?? 0;
-      progressModel.countPhieuSyncSuccess =
-          await bkCoSoSXKDProvider.countSyncSuccessAll(maDoiTuongDT) ?? 0;
+      progressModel.moTaDoiTuongDT = moTa; 
       return progressModel;
     }
   }

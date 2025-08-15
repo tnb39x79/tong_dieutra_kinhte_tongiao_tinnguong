@@ -5,18 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:gov_tongdtkt_tongiao/config/constants/app_define.dart';
-import 'package:gov_tongdtkt_tongiao/modules/question_module/question_no07/question_no07_controller.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_bkcoso_sxkd_nganh_sanpham_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_mota_sanpham_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/phieu_07_mau_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/phieu_08_tongiao_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p07mau.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p07mau_dm.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_data.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm.dart';
 import 'package:gov_tongdtkt_tongiao/common/common.dart';
-import 'package:gov_tongdtkt_tongiao/modules/modules.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_sxkd.dart';
+import 'package:gov_tongdtkt_tongiao/modules/modules.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_sxkd_nganh_sanpham.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_tongiao.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_phieu_07_mau_sanpham.dart';
@@ -71,7 +68,6 @@ class GeneralInformationController extends BaseController {
 
   /// RX
   final tblBkTonGiao = TableBkTonGiao().obs;
-  final tblBkCoSoSXKD = TableBkCoSoSXKD().obs;
   //final tblBkCoSoSXKDNganhSanPham = <TableBkCoSoSXKDNganhSanPham>[].obs;
   final tblBkCoSoSXKDNganhSanPham = TableBkCoSoSXKDNganhSanPham().obs;
   final screenNos = <int>[].obs;
@@ -80,7 +76,6 @@ class GeneralInformationController extends BaseController {
   /// provider
   final dataProvider = DataProvider();
   final bkCoSoTonGiaoProvider = BKCoSoTonGiaoProvider();
-  final bkCoSoSXKDProvider = BKCoSoSXKDProvider();
   final bkCoSoSXKDNganhSanPhamProvider = BKCoSoSXKDNganhSanPhamProvider();
 
   final phieuMauProvider = PhieuMauProvider();
@@ -133,80 +128,34 @@ class GeneralInformationController extends BaseController {
   }
 
   Future getGeneralInformation() async {
-    if (currentMaDoiTuongDT == AppDefine.maDoiTuongDT_07Mau.toString() ||
-        currentMaDoiTuongDT == AppDefine.maDoiTuongDT_07TB.toString()) {
-      // String idCoso =
-      //     currentIdCoSoDuPhong != null ? currentIdCoSoDuPhong! : currentIdCoSo!;
-
-      var map = await bkCoSoSXKDProvider.getInformation(currentIdCoSo!);
-      log(map.toString());
-      if (map != null) {
-        tblBkCoSoSXKD.value = TableBkCoSoSXKD.fromJson(map);
-
-        maTinhController.text = tblBkCoSoSXKD.value.maTinh ?? '';
-        tenTinhController.text = tblBkCoSoSXKD.value.tenTinh ?? '';
-
-        maHuyenController.text = tblBkCoSoSXKD.value.maHuyen ?? '';
-        tenHuyenController.text = tblBkCoSoSXKD.value.tenHuyen ?? '';
-
-        maXaController.text = tblBkCoSoSXKD.value.maXa ?? '';
-        tenXaController.text = tblBkCoSoSXKD.value.tenXa ?? '';
-
-        maThonController.text = tblBkCoSoSXKD.value.maThon ?? '';
-        tenThonController.text = tblBkCoSoSXKD.value.tenThon ?? '';
-        coSoSoTextController.text = tblBkCoSoSXKD.value.tenThon ?? '';
-        maDiaBanController.text = tblBkCoSoSXKD.value.maDiaBan ?? '';
-        tenDiaBanController.text = tblBkCoSoSXKD.value.tenDiaBan ?? '';
-        coSoSoGiaTriController.text = '';
-        tenCoSoController.text = tblBkCoSoSXKD.value.tenCoSo ?? '';
-        diaChiChuHoController.text = tblBkCoSoSXKD.value.diaChi ?? '';
-        dienThoaiController.text = tblBkCoSoSXKD.value.dienThoai ?? '';
-        emailController.text = tblBkCoSoSXKD.value.email ?? '';
-
-        var mapMaNganhs =
-            await bkCoSoSXKDNganhSanPhamProvider.selectByIdCoSo(currentIdCoSo!);
-        if (mapMaNganhs != null) {
-          var nganhSP =
-              TableBkCoSoSXKDNganhSanPham.listFromJson(mapMaNganhs).firstOrNull;
-          if (nganhSP != null) {
-            tblBkCoSoSXKDNganhSanPham.value = nganhSP;
-          }
-          maNganhController.text =
-              tblBkCoSoSXKDNganhSanPham.value.maNganh ?? '';
-          tenNganhController.text =
-              tblBkCoSoSXKDNganhSanPham.value.tenNganh ?? '';
+    var map = await bkCoSoTonGiaoProvider.getInformation(currentIdCoSoTG!);
+    if (map != null) {
+      tblBkTonGiao.value = TableBkTonGiao.fromJson(map);
+      maTinhController.text = tblBkTonGiao.value.maTinh ?? '';
+      tenTinhController.text = tblBkTonGiao.value.tenTinh ?? '';
+      maHuyenController.text = tblBkTonGiao.value.maHuyen ?? '';
+      tenHuyenController.text = tblBkTonGiao.value.tenHuyen ?? '';
+      maXaController.text = tblBkTonGiao.value.maXa ?? '';
+      tenXaController.text = tblBkTonGiao.value.tenXa ?? '';
+      maThonController.text = tblBkTonGiao.value.maThon ?? '';
+      tenThonController.text = tblBkTonGiao.value.tenThon ?? '';
+      tenChuHoController.text = tblBkTonGiao.value.tenCoSo ?? '';
+      diaChiChuHoController.text = tblBkTonGiao.value.diaChi ?? '';
+      dienThoaiController.text = tblBkTonGiao.value.dienThoai ?? '';
+      emailController.text = tblBkTonGiao.value.email ?? '';
+      coSoSoGiaTriController.text = tblBkTonGiao.value.maCoSo != null
+          ? tblBkTonGiao.value.maCoSo.toString()
+          : '';
+      String ttNT = '';
+      if (tblBkTonGiao.value.ttNT != null) {
+        if (tblBkTonGiao.value.ttNT == 1) {
+          ttNT = 'Thành thị';
+        } else if (tblBkTonGiao.value.ttNT == 2) {
+          ttNT = 'Nông thôn';
         }
       }
-    } else if (currentMaDoiTuongDT == AppDefine.maDoiTuongDT_08.toString()) {
-      var map = await bkCoSoTonGiaoProvider.getInformation(currentIdCoSoTG!);
-      if (map != null) {
-        tblBkTonGiao.value = TableBkTonGiao.fromJson(map);
-        maTinhController.text = tblBkTonGiao.value.maTinh ?? '';
-        tenTinhController.text = tblBkTonGiao.value.tenTinh ?? '';
-        maHuyenController.text = tblBkTonGiao.value.maHuyen ?? '';
-        tenHuyenController.text = tblBkTonGiao.value.tenHuyen ?? '';
-        maXaController.text = tblBkTonGiao.value.maXa ?? '';
-        tenXaController.text = tblBkTonGiao.value.tenXa ?? '';
-        maThonController.text = tblBkTonGiao.value.maThon ?? '';
-        tenThonController.text = tblBkTonGiao.value.tenThon ?? '';
-        tenChuHoController.text = tblBkTonGiao.value.tenCoSo ?? '';
-        diaChiChuHoController.text = tblBkTonGiao.value.diaChi ?? '';
-        dienThoaiController.text = tblBkTonGiao.value.dienThoai ?? '';
-        emailController.text = tblBkTonGiao.value.email ?? '';
-        coSoSoGiaTriController.text = tblBkTonGiao.value.maCoSo != null
-            ? tblBkTonGiao.value.maCoSo.toString()
-            : '';
-        String ttNT = '';
-        if (tblBkTonGiao.value.ttNT != null) {
-          if (tblBkTonGiao.value.ttNT == 1) {
-            ttNT = 'Thành thị';
-          } else if (tblBkTonGiao.value.ttNT == 2) {
-            ttNT = 'Nông thôn';
-          }
-        }
-        ttNTController.text = ttNT;
-        //phieuTonGiaoProvider
-      }
+      ttNTController.text = ttNT;
+      //phieuTonGiaoProvider
     }
   }
 
@@ -220,16 +169,7 @@ class GeneralInformationController extends BaseController {
   //   }
   //   return false;
   // }
-  Future<bool> checkMaNganhCap1BCEByMaVCPA() async {
-    var maNganhs = await bkCoSoSXKDNganhSanPhamProvider
-        .selectMaNganhByIdCoSo(tblBkCoSoSXKD.value.iDCoSo!);
-    if (maNganhs.isNotEmpty) {
-      var res =
-          await dmMotaSanphamProvider.kiemTraMaNganhCap1BCEByMaVCPA(maNganhs);
-      return res;
-    }
-    return false;
-  }
+ 
 
   Future getScreenNo({int screenNo = 2}) async {
     try {
@@ -330,22 +270,8 @@ class GeneralInformationController extends BaseController {
   }
 
   getNextScreen(int screenNoValue) async {
-    if (currentMaDoiTuongDT == AppDefine.maDoiTuongDT_07Mau.toString()) {
-      var isCap1BCE = await checkMaNganhCap1BCEByMaVCPA();
-      Get.toNamed(AppRoutes.question07, parameters: {
-        QuestionNo07Controller.idCoSoKey: currentIdCoSo!,
-        QuestionNo07Controller.isNhomNganhCap1BCEKey: isCap1BCE ? '1' : '0',
-      });
-    }
-    if (currentMaDoiTuongDT == AppDefine.maDoiTuongDT_07TB.toString()) {
-      Get.toNamed(AppRoutes.question07, parameters: {
-        QuestionNo07Controller.idCoSoKey: currentIdCoSo!,
-        QuestionNo07Controller.isNhomNganhCap1BCEKey: '',
-      });
-    } else if (currentMaDoiTuongDT == AppDefine.maDoiTuongDT_08.toString()) {
-      Get.toNamed(AppRoutes.question08,
-          parameters: {QuestionNo08Controller.idCoSoKey: currentIdCoSoTG!});
-    }
+    Get.toNamed(AppRoutes.question08,
+        parameters: {QuestionNo08Controller.idCoSoKey: currentIdCoSoTG!});
   }
 
 /***********/

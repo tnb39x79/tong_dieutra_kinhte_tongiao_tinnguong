@@ -34,7 +34,7 @@ class ApiConstants {
   //dev http://v1_capi_giasanxuat.gso.gov.vn/
   //live: http://api_cathe_thidiemtdtkt2026.gso.gov.vn/
   static const String baseUrl = String.fromEnvironment('BASE_API',
-      defaultValue: "http://api_cathe_thidiemtdtkt2026.gso.gov.vn/");
+      defaultValue: "http://10.13.1.139:8189/");
 
   static const String baseUrlNganhSp = "http://sic3_api1.gso.gov.vn:8000/";
 
@@ -57,7 +57,7 @@ class ApiConstants {
   static const String sendErrorData = 'api/LogErrorTGData/';
 
     //send full data json
-  static const String sendFullData = 'api/SendFullTGDataJsonError/';
+  static const String sendFullData = 'api/SendFullTGDataError/';
 
   /// ky dieu tra
   static const String getKyDieuTra = 'api/GetKyDieuTra';

@@ -5,26 +5,29 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:gov_tongdtkt_tongiao/common/utils/app_pref.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/database_helper.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p07mau.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/provider_p08.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_sxkd.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_bkcoso_tongiao.dart';
 import 'package:gov_tongdtkt_tongiao/resource/model/reponse/response_model.dart';
 import 'package:gov_tongdtkt_tongiao/resource/model/reponse/response_sync_model.dart';
 import 'package:gov_tongdtkt_tongiao/resource/model/senderror/senderror_model.dart';
+import 'package:gov_tongdtkt_tongiao/resource/model/sync/file_model.dart';
 import 'package:gov_tongdtkt_tongiao/resource/model/sync/sync_model.dart';
 import 'package:gov_tongdtkt_tongiao/resource/services/api/api_constants.dart';
 import 'package:gov_tongdtkt_tongiao/resource/services/api/send_error/send_error_repository.dart';
 import 'package:gov_tongdtkt_tongiao/resource/services/api/sync_data/sync_data_repository.dart';
+import 'package:intl/intl.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 mixin SyncMixin {
   Map body = {};
 
   final bkCoSoTonGiaoMixProvider = BKCoSoTonGiaoProvider();
-  final bkCoSoSXKDMixProvider = BKCoSoSXKDProvider();
   final diaBanCoSoTonGiaoMixProvider = DiaBanCoSoTonGiaoProvider();
-  final diaBanCoSoSXKDMixProvider = DiaBanCoSoSXKDProvider();
 
   ///Phiếu 07 mẫu
   final phieuMauMixProvider = PhieuMauProvider();
@@ -36,7 +39,6 @@ mixin SyncMixin {
   final phieuTonGiaoMixProvider = PhieuTonGiaoProvider();
   final phieuTonGiaoA43MixProvider = PhieuTonGiaoA43Provider();
 
-  final danhSachBkCoSoSXKDInterviewed = <TableBkCoSoSXKD>[].obs;
   final danhSachBkDiaBanTonGiaoInterviewed = <TableBkTonGiao>[].obs;
 
   Future<ResponseSyncModel> syncDataMixin(SyncRepository syncRepository,
@@ -55,7 +57,6 @@ mixin SyncMixin {
 
   Future getBody() async {
     await Future.wait([
-      getCoSoSX(),
       getDataTonGiao(),
     ]);
     developer.log('GET BODY: ${jsonEncode(body)}');
@@ -71,48 +72,6 @@ mixin SyncMixin {
             .add(TableBkTonGiao.fromJson(element));
       }
     }
-    List<Map>? interviewedCoSoSXKD =
-        await bkCoSoSXKDMixProvider.selectAllListInterviewedSync();
-    danhSachBkCoSoSXKDInterviewed.clear();
-    developer.log('interviewedCoSoSXKD: $interviewedCoSoSXKD');
-    if (interviewedCoSoSXKD.isNotEmpty) {
-      for (var element in interviewedCoSoSXKD) {
-        developer.log('CSSXKD: $element');
-        danhSachBkCoSoSXKDInterviewed.add(TableBkCoSoSXKD.fromJson(element));
-      }
-    }
-  }
-
-  Future getCoSoSX() async {
-    List cosoSX = [];
-
-    await Future.wait(danhSachBkCoSoSXKDInterviewed.map((item) async {
-      var map = {
-        "MaPhieu": item.maPhieu,
-        "IDCoso": item.iDCoSo,
-        "TenCoso": item.tenCoSo,
-        "MaTinh": item.maTinh,
-        "MaHuyen": item.maHuyen,
-        "MaXa": item.maXa,
-        "MaDiaBan": item.maDiaBan,
-        "TenDiaBan": item.tenDiaBan,
-        "MaThon": item.maThon,
-        "TenThon": item.tenThon,
-        "DiaChi": item.diaChi,
-        "DienThoai": item.dienThoai,
-        "Email": item.email,
-        "MaTinhTrangHD": item.maTinhTrangHD,
-      };
-
-      Map phieuMaus = await getPhieuMaus(item.iDCoSo!);
-      if (phieuMaus.isNotEmpty) {
-        map['PhieuMau'] = phieuMaus;
-      }
-
-      cosoSX.add(map);
-    }));
-
-    body['CoSoSXKDData'] = cosoSX;
   }
 
   Future<Map> getPhieuMaus(String iDCoSo) async {
@@ -231,6 +190,8 @@ mixin SyncMixin {
         } else {
           errorMessage = "Lỗi đồng bộ:${syncData.responseMessage}";
         }
+        uploadFullDataJson(syncRepository, sendErrorRepository, progress,
+            isRetryWithSignIn: false);
         ResponseSyncModel responseSyncModel = ResponseSyncModel(
             isSuccess: false,
             responseCode: syncData.responseCode,
@@ -339,7 +300,11 @@ mixin SyncMixin {
     var errorMessage = '';
     var responseCode = '';
     var isSuccess = false;
-    ResponseModel _request = await sendErrorRepository.sendFullData(body,
+
+    var fileModel = await getDbFileContent();
+    developer.log('FILE MODEL: ${fileModel.toJson()}');
+
+    ResponseModel _request = await sendErrorRepository.sendFullData(fileModel,
         uploadProgress: (value) => progress.value = value);
     developer.log('SEND FULL DATA SUCCESS: ${_request.body}');
 
@@ -389,4 +354,58 @@ mixin SyncMixin {
         responseMessage: errorMessage);
     return responseSyncModel;
   }
+
+  Future<FileModel> getDbFileContent() async {
+    String dbBackUpDir = 'dbbackup';
+    String dbPath = await DatabaseHelper.instance.getMyDatabasePath();
+    String dbFilePath=p.join(dbPath,'DTKinhTeTonGiao.db');
+    final dbFile = File(dbFilePath);
+    final dbFileName = p.basename(dbFile.path);
+
+    // Directory directory = Directory("");
+    // if (Platform.isAndroid) {
+    //   directory = (await getExternalStorageDirectory())!;
+    // } else {
+    //   directory = (await getApplicationDocumentsDirectory());
+    // }
+    // var dirPath = await createFolder(dbBackUpDir);
+    // try {
+    //   final dir = Directory(dirPath);
+    //   final List<FileSystemEntity> files = dir.listSync();
+    //   for (final FileSystemEntity file in files) {
+    //     await file.delete();
+    //   }
+    // } catch (e) {
+    //   // Error in getting access to the file.
+    // }
+    // //String dtNow= DateTime.now().toIso8601String();
+    // String dtNow = DateFormat('yyyyMMddHHmmss').format(DateTime.now());
+    // String filePathBk = p.join(dirPath,'bk_dtkt_$dtNow.db');
+   // File dbFileCopied = await dbFile.copy(filePathBk);
+var isexistDbFile=   dbFile.existsSync();
+
+    final fileBytes = dbFile.readAsBytesSync();
+    final fileBase64 = base64Encode(fileBytes);
+
+    var fileModel =
+        FileModel(fileName: dbFileName, dataFileContent: fileBase64);
+    return fileModel;
+  }
+
+  // Future<String> createFolder(String cow) async {
+  //   final dir = Directory(
+  //       '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
+  //               : await getApplicationDocumentsDirectory() //FOR IOS
+  //           )!.path}/$cow');
+  //   var status = await Permission.storage.status;
+  //   if (!status.isGranted) {
+  //     await Permission.storage.request();
+  //   }
+  //   if ((await dir.exists())) {
+  //     return dir.path;
+  //   } else {
+  //     dir.create();
+  //     return dir.path;
+  //   }
+  // }
 }

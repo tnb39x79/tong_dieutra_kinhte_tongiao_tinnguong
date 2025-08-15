@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:gov_tongdtkt_tongiao/common/utils/utils.dart';
+import 'package:gov_tongdtkt_tongiao/resource/model/sync/file_model.dart';
 import 'package:gov_tongdtkt_tongiao/resource/resource.dart';
 
 class SendErrorProvider extends GetConnect {
@@ -53,7 +54,7 @@ class SendErrorProvider extends GetConnect {
     }
   }
 
-  Future<Response> sendFullData(Map body,
+  Future<Response> sendFullData(FileModel body,
       {Function(double)? uploadProgress}) async {
     String loginData0 = AppPref.loginData;
     var json = jsonDecode(loginData0);
@@ -69,10 +70,11 @@ class SendErrorProvider extends GetConnect {
 
     log('HEADER: $headers');
     log('url: $url');
+
     try {
       var response = await post(
         url,
-        body,
+        jsonEncode(body),
         uploadProgress: uploadProgress,
         headers: headers,
       ).timeout(

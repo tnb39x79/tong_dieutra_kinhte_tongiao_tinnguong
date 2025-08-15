@@ -5,8 +5,9 @@ import 'package:gov_tongdtkt_tongiao/config/constants/app_colors.dart';
 import 'package:gov_tongdtkt_tongiao/config/constants/app_styles.dart';
 import 'package:gov_tongdtkt_tongiao/modules/question_module/question_no08/widget/checkbox_circle_dm.dart';
 import 'package:gov_tongdtkt_tongiao/modules/question_module/question_no08/widget/input_string_dm.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm.dart';
-import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm07mau.dart';
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_ct_dm_hoatdong_logistic.dart';
+ 
+import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm.dart'; 
 import 'package:gov_tongdtkt_tongiao/resource/database/table/table_dm_gioitinh.dart';
 import 'package:gov_tongdtkt_tongiao/resource/resource.dart';
 
@@ -102,42 +103,23 @@ class SelectIntCTDmState extends State<SelectIntCTDm> {
           String tenVal = '';
           dynamic itemDyn;
           int ghiRo = 0;
-          if (widget.tenDanhMuc == tableCTDmDiaDiemSXKD) {
-            TableCTDmDiaDiemSXKD item = widget.listValue[index];
-            itemDyn = item;
-            maVal = item.ma!;
-            tenVal = item.ten!;
-          } else if (widget.tenDanhMuc == tableDmCap) {
-            TableDmCap item = widget.listValue[index];
-            itemDyn = item;
-            maVal = item.ma!;
-            tenVal = item.ten!;
-          } else if (widget.tenDanhMuc == tableCTDmHoatDongLogistic) {
+          // if (widget.tenDanhMuc == tableCTDmDiaDiemSXKD) {
+          //   TableCTDmDiaDiemSXKD item = widget.listValue[index];
+          //   itemDyn = item;
+          //   maVal = item.ma!;
+          //   tenVal = item.ten!;
+          // } else if (widget.tenDanhMuc == tableDmCap) {
+          //   TableDmCap item = widget.listValue[index];
+          //   itemDyn = item;
+          //   maVal = item.ma!;
+          //   tenVal = item.ten!;
+          // } else 
+          if (widget.tenDanhMuc == tableCTDmHoatDongLogistic) {
             TableCTDmHoatDongLogistic item = widget.listValue[index];
             itemDyn = item;
             maVal = item.ma!;
             tenVal = item.ten!;
-          } else if (widget.tenDanhMuc == tableCTDmLinhVuc) {
-            TableCTDmLinhVuc item = widget.listValue[index];
-            itemDyn = item;
-            maVal = item.ma!;
-            tenVal = item.ten!;
-          } else if (widget.tenDanhMuc == tableCTDmLoaiDiaDiem) {
-            TableCTDmLoaiDiaDiem item = widget.listValue[index];
-            itemDyn = item;
-            maVal = item.ma!;
-            tenVal = item.ten!;
-          } else if (widget.tenDanhMuc == tableCTDmTinhTrangDKKD) {
-            TableCTDmTinhTrangDKKD item = widget.listValue[index];
-            itemDyn = item;
-            maVal = item.ma!;
-            tenVal = item.ten!;
-          } else if (widget.tenDanhMuc == tableCTDmTrinhDoCm) {
-            TableCTDmTrinhDoChuyenMon item = widget.listValue[index];
-            itemDyn = item;
-            maVal = item.ma!;
-            tenVal = item.ten!;
-          } else if (widget.tenDanhMuc == tableDmGioiTinh) {
+          }  else if (widget.tenDanhMuc == tableDmGioiTinh) {
             TableDmGioiTinh item = widget.listValue[index];
             itemDyn = item;
             maVal = item.ma!;
@@ -147,12 +129,7 @@ class SelectIntCTDmState extends State<SelectIntCTDm> {
             itemDyn = item;
             maVal = item.ma!;
             tenVal = item.ten!;
-          } else if (widget.tenDanhMuc == tableDmQuocTich) {
-            TableCTDmQuocTich item = widget.listValue[index];
-            itemDyn = item;
-            maVal = item.maQuocTich!;
-            tenVal = item.tenQuocTich!;
-          }
+          } 
           return Column(
             children: [
               CheckBoxCircleDm(
