@@ -240,21 +240,21 @@ mixin SyncMixin {
     var errorMessage = '';
     var responseCode = '';
     var isSuccess = false;
-    ResponseModel _request = await sendErrorRepository.sendErrorData(body,
+    ResponseModel request = await sendErrorRepository.sendErrorData(body,
         uploadProgress: (value) => progress.value = value);
-    developer.log('SEND DATA JSON SYNCERROR SUCCESS: ${_request.body}');
+    developer.log('SEND DATA JSON SYNCERROR SUCCESS: ${request.body}');
 
-    if (_request.statusCode == ApiConstants.errorToken && !isRetryWithSignIn) {
+    if (request.statusCode == ApiConstants.errorToken && !isRetryWithSignIn) {
       var resp = await syncRepository.getToken(
           userName: AppPref.userName, password: AppPref.password);
       AppPref.accessToken = resp.body?.accessToken;
       uploadDataJsonMixin(syncRepository, sendErrorRepository, progress,
           isRetryWithSignIn: true);
     }
-    responseCode = _request.statusCode.toString();
-    if (_request.statusCode == 200) {
+    responseCode = request.statusCode.toString();
+    if (request.statusCode == 200) {
       SendErrorModel dataSend =
-          SendErrorModel.fromJson(jsonDecode(_request.body));
+          SendErrorModel.fromJson(jsonDecode(request.body));
       errorMessage = dataSend.responseMessage ?? '';
       responseCode = dataSend.responseCode ?? '';
 
@@ -262,28 +262,28 @@ mixin SyncMixin {
         errorMessage = dataSend.responseMessage ?? '';
         isSuccess = true;
       } else {}
-    } else if (_request.statusCode == 401) {
+    } else if (request.statusCode == 401) {
       errorMessage = 'Tài khoản đã hết hạn, vui lòng đăng nhập và đồng bộ lại.';
-    } else if (_request.statusCode == ApiConstants.errorDisconnect) {
+    } else if (request.statusCode == ApiConstants.errorDisconnect) {
       errorMessage = 'Kết nối mạng đã bị ngắt. Vui lòng kiểm tra lại.';
-    } else if (_request.statusCode == ApiConstants.errorException) {
-      errorMessage = 'Có lỗi: ${_request.message}';
-    } else if (_request.statusCode.toString() ==
+    } else if (request.statusCode == ApiConstants.errorException) {
+      errorMessage = 'Có lỗi: ${request.message}';
+    } else if (request.statusCode.toString() ==
         ApiConstants.notAllowSendFile) {
-      errorMessage = _request.message ??
+      errorMessage = request.message ??
           'Bạn chưa được phân quyền thực hiện chức năng này.';
-    } else if (_request.statusCode.toString() ==
+    } else if (request.statusCode.toString() ==
         ApiConstants.errorMaDTVNotFound) {
-      errorMessage = _request.message ?? 'Không tìm thấy dữ liệu';
-    } else if (_request.statusCode == HttpStatus.requestTimeout) {
+      errorMessage = request.message ?? 'Không tìm thấy dữ liệu';
+    } else if (request.statusCode == HttpStatus.requestTimeout) {
       errorMessage = 'Request timeout.';
-    } else if (_request.statusCode == HttpStatus.internalServerError) {
-      errorMessage = 'Có lỗi: ${_request.message}';
+    } else if (request.statusCode == HttpStatus.internalServerError) {
+      errorMessage = 'Có lỗi: ${request.message}';
     } else {
       errorMessage =
           'Đã có lỗi xảy ra, vui lòng kiểm tra kết nối internet và thử lại!';
     }
-    developer.log('_request.statusCode uploadDataJson ${_request.statusCode}');
+    developer.log('_request.statusCode uploadDataJson ${request.statusCode}');
     ResponseSyncModel responseSyncModel = ResponseSyncModel(
         isSuccess: isSuccess,
         responseCode: responseCode,
@@ -293,10 +293,7 @@ mixin SyncMixin {
 
   Future<ResponseSyncModel> uploadFullDataJson(SyncRepository syncRepository,
       SendErrorRepository sendErrorRepository, progress,
-      {bool isRetryWithSignIn = false}) async {
-    developer.log('BODY: ${json.encode(body)}');
-    developer.log('BODY: $body');
-    print('$body');
+      {bool isRetryWithSignIn = false}) async { 
     var errorMessage = '';
     var responseCode = '';
     var isSuccess = false;
@@ -304,21 +301,21 @@ mixin SyncMixin {
     var fileModel = await getDbFileContent();
     developer.log('FILE MODEL: ${fileModel.toJson()}');
 
-    ResponseModel _request = await sendErrorRepository.sendFullData(fileModel,
+    ResponseModel request = await sendErrorRepository.sendFullData(fileModel,
         uploadProgress: (value) => progress.value = value);
-    developer.log('SEND FULL DATA SUCCESS: ${_request.body}');
+    developer.log('SEND FULL DATA SUCCESS: ${request.body}');
 
-    if (_request.statusCode == ApiConstants.errorToken && !isRetryWithSignIn) {
+    if (request.statusCode == ApiConstants.errorToken && !isRetryWithSignIn) {
       var resp = await syncRepository.getToken(
           userName: AppPref.userName, password: AppPref.password);
       AppPref.accessToken = resp.body?.accessToken;
       uploadFullDataJson(syncRepository, sendErrorRepository, progress,
           isRetryWithSignIn: true);
     }
-    responseCode = _request.statusCode.toString();
-    if (_request.statusCode == 200) {
+    responseCode = request.statusCode.toString();
+    if (request.statusCode == 200) {
       SendErrorModel dataSend =
-          SendErrorModel.fromJson(jsonDecode(_request.body));
+          SendErrorModel.fromJson(jsonDecode(request.body));
       errorMessage = dataSend.responseMessage ?? '';
       responseCode = dataSend.responseCode ?? '';
 
@@ -326,28 +323,28 @@ mixin SyncMixin {
         errorMessage = dataSend.responseMessage ?? '';
         isSuccess = true;
       } else {}
-    } else if (_request.statusCode == 401) {
+    } else if (request.statusCode == 401) {
       errorMessage = 'Tài khoản đã hết hạn, vui lòng đăng nhập và đồng bộ lại.';
-    } else if (_request.statusCode == ApiConstants.errorDisconnect) {
+    } else if (request.statusCode == ApiConstants.errorDisconnect) {
       errorMessage = 'Kết nối mạng đã bị ngắt. Vui lòng kiểm tra lại.';
-    } else if (_request.statusCode == ApiConstants.errorException) {
-      errorMessage = 'Có lỗi: ${_request.message}';
-    } else if (_request.statusCode.toString() ==
+    } else if (request.statusCode == ApiConstants.errorException) {
+      errorMessage = 'Có lỗi: ${request.message}';
+    } else if (request.statusCode.toString() ==
         ApiConstants.notAllowSendFile) {
-      errorMessage = _request.message ??
+      errorMessage = request.message ??
           'Bạn chưa được phân quyền thực hiện chức năng này.';
-    } else if (_request.statusCode.toString() ==
+    } else if (request.statusCode.toString() ==
         ApiConstants.errorMaDTVNotFound) {
-      errorMessage = _request.message ?? 'Không tìm thấy dữ liệu';
-    } else if (_request.statusCode == HttpStatus.requestTimeout) {
+      errorMessage = request.message ?? 'Không tìm thấy dữ liệu';
+    } else if (request.statusCode == HttpStatus.requestTimeout) {
       errorMessage = 'Request timeout.';
-    } else if (_request.statusCode == HttpStatus.internalServerError) {
-      errorMessage = 'Có lỗi: ${_request.message}';
+    } else if (request.statusCode == HttpStatus.internalServerError) {
+      errorMessage = 'Có lỗi: ${request.message}';
     } else {
       errorMessage =
           'Đã có lỗi xảy ra, vui lòng kiểm tra kết nối internet và thử lại!';
     }
-    developer.log('_request.statusCode uploadDataJson ${_request.statusCode}');
+    developer.log('_request.statusCode uploadDataJson ${request.statusCode}');
     ResponseSyncModel responseSyncModel = ResponseSyncModel(
         isSuccess: isSuccess,
         responseCode: responseCode,
