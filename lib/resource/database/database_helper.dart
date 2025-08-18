@@ -80,6 +80,10 @@ class DatabaseHelper {
     );
   }
 
+ String getMyDatabaseName() {
+    return _databaseName;
+  }
+  
   // get path location database
   Future<String> getMyDatabasePath() async {
     // Get a location using getDatabasesPath

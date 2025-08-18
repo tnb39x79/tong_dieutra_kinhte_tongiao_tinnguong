@@ -2,10 +2,12 @@ import 'dart:convert';
 
 class FileModel {
   late String fileName;
+  late String fileExt;
   late String dataFileContent;
 
   FileModel({
     required this.fileName,
+    required this.fileExt,
     required this.dataFileContent
   });
 
@@ -13,6 +15,7 @@ class FileModel {
   Map<String, dynamic> toJson() {
     return {
       'FileName': fileName,
+      'FileExt': fileExt,
       'DataFileContent' : dataFileContent
     };
   }
@@ -26,6 +29,7 @@ class FileModel {
   factory FileModel.fromMap(Map<String, dynamic> json) {
     return FileModel(
         fileName: json['FileName'],
+        fileExt: json['FileExt'],
         dataFileContent: json['DataFileContent']
     );
   }

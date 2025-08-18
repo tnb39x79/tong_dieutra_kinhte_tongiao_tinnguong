@@ -22,6 +22,7 @@ import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:archive/archive_io.dart';
 
 mixin SyncMixin {
   Map body = {};
@@ -268,8 +269,7 @@ mixin SyncMixin {
       errorMessage = 'Kết nối mạng đã bị ngắt. Vui lòng kiểm tra lại.';
     } else if (request.statusCode == ApiConstants.errorException) {
       errorMessage = 'Có lỗi: ${request.message}';
-    } else if (request.statusCode.toString() ==
-        ApiConstants.notAllowSendFile) {
+    } else if (request.statusCode.toString() == ApiConstants.notAllowSendFile) {
       errorMessage = request.message ??
           'Bạn chưa được phân quyền thực hiện chức năng này.';
     } else if (request.statusCode.toString() ==
@@ -293,13 +293,16 @@ mixin SyncMixin {
 
   Future<ResponseSyncModel> uploadFullDataJson(SyncRepository syncRepository,
       SendErrorRepository sendErrorRepository, progress,
-      {bool isRetryWithSignIn = false}) async { 
+      {bool isRetryWithSignIn = false}) async {
     var errorMessage = '';
     var responseCode = '';
     var isSuccess = false;
 
-    var fileModel = await getDbFileContent();
+    var fileModel = await getZipDbFileContent();
     developer.log('FILE MODEL: ${fileModel.toJson()}');
+    if (fileModel.dataFileContent == '') {
+      fileModel = await getDbFileContent();
+    }
 
     ResponseModel request = await sendErrorRepository.sendFullData(fileModel,
         uploadProgress: (value) => progress.value = value);
@@ -329,8 +332,7 @@ mixin SyncMixin {
       errorMessage = 'Kết nối mạng đã bị ngắt. Vui lòng kiểm tra lại.';
     } else if (request.statusCode == ApiConstants.errorException) {
       errorMessage = 'Có lỗi: ${request.message}';
-    } else if (request.statusCode.toString() ==
-        ApiConstants.notAllowSendFile) {
+    } else if (request.statusCode.toString() == ApiConstants.notAllowSendFile) {
       errorMessage = request.message ??
           'Bạn chưa được phân quyền thực hiện chức năng này.';
     } else if (request.statusCode.toString() ==
@@ -353,56 +355,91 @@ mixin SyncMixin {
   }
 
   Future<FileModel> getDbFileContent() async {
-    String dbBackUpDir = 'dbbackup';
     String dbPath = await DatabaseHelper.instance.getMyDatabasePath();
-    String dbFilePath=p.join(dbPath,'DTKinhTeTonGiao.db');
+    String dbFilePath = p.join(dbPath, DatabaseHelper.instance.getMyDatabaseName());
     final dbFile = File(dbFilePath);
     final dbFileName = p.basename(dbFile.path);
 
-    // Directory directory = Directory("");
-    // if (Platform.isAndroid) {
-    //   directory = (await getExternalStorageDirectory())!;
-    // } else {
-    //   directory = (await getApplicationDocumentsDirectory());
-    // }
-    // var dirPath = await createFolder(dbBackUpDir);
-    // try {
-    //   final dir = Directory(dirPath);
-    //   final List<FileSystemEntity> files = dir.listSync();
-    //   for (final FileSystemEntity file in files) {
-    //     await file.delete();
-    //   }
-    // } catch (e) {
-    //   // Error in getting access to the file.
-    // }
-    // //String dtNow= DateTime.now().toIso8601String();
-    // String dtNow = DateFormat('yyyyMMddHHmmss').format(DateTime.now());
-    // String filePathBk = p.join(dirPath,'bk_dtkt_$dtNow.db');
-   // File dbFileCopied = await dbFile.copy(filePathBk);
-var isexistDbFile=   dbFile.existsSync();
+    var isexistDbFile = dbFile.existsSync();
+    if (isexistDbFile) {
+      final fileBytes = dbFile.readAsBytesSync();
+      final fileBase64 = base64Encode(fileBytes);
 
-    final fileBytes = dbFile.readAsBytesSync();
-    final fileBase64 = base64Encode(fileBytes);
-
-    var fileModel =
-        FileModel(fileName: dbFileName, dataFileContent: fileBase64);
-    return fileModel;
+      var fileModel = FileModel(
+          fileName: dbFileName, fileExt: "db", dataFileContent: fileBase64);
+      return fileModel;
+    }
+    return FileModel(fileName: "", fileExt: "", dataFileContent: "");
   }
 
-  // Future<String> createFolder(String cow) async {
-  //   final dir = Directory(
-  //       '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
-  //               : await getApplicationDocumentsDirectory() //FOR IOS
-  //           )!.path}/$cow');
-  //   var status = await Permission.storage.status;
-  //   if (!status.isGranted) {
-  //     await Permission.storage.request();
-  //   }
-  //   if ((await dir.exists())) {
-  //     return dir.path;
-  //   } else {
-  //     dir.create();
-  //     return dir.path;
-  //   }
-  // }
+  Future<FileModel> getZipDbFileContent() async {
+    String dbBackUpDir = 'dbbackup';
+    String dbPath = await DatabaseHelper.instance.getMyDatabasePath();
+    String dbFilePath = p.join(dbPath, DatabaseHelper.instance.getMyDatabaseName());
+    final dbFile = File(dbFilePath);
+    final dbFileName = p.basename(dbFile.path);
+
+    Directory directory = Directory("");
+    if (Platform.isAndroid) {
+      directory = (await getExternalStorageDirectory())!;
+    } else {
+      directory = (await getApplicationDocumentsDirectory());
+    }
+    var dirPath = await createFolder(dbBackUpDir);
+    try {
+      final dir = Directory(dirPath);
+      final List<FileSystemEntity> files = dir.listSync();
+      for (final FileSystemEntity file in files) {
+        await file.delete();
+      }
+    } catch (e) {
+      // Error in getting access to the file.
+    }
+
+    String dtNow = DateFormat('yyyyMMddHHmmss').format(DateTime.now());
+    String zipDbFileName = 'tongdtkt_tg_$dtNow.zip';
+    String filePathBk = p.join(dirPath, zipDbFileName);
+    // File dbFileCopied = await dbFile.copy(filePathBk);
+    var isexistDbFile = dbFile.existsSync();
+
+    final fileBytes = dbFile.readAsBytesSync();
+    //zip file
+
+    final archive = Archive();
+    archive.addFile(ArchiveFile(dbFileName, fileBytes.length, fileBytes));
+
+    final outputStream = OutputFileStream(filePathBk);
+    final encoder = ZipEncoder();
+    encoder.encode(archive, output: outputStream);
+    await outputStream.close();
+
+    final zipDbFile = File(filePathBk);
+    if (zipDbFile.existsSync()) {
+      final zipFileBytes = zipDbFile.readAsBytesSync();
+      final zipFileBase64 = base64Encode(zipFileBytes);
+      var zipFileModel = FileModel(
+          fileName: zipDbFileName,
+          fileExt: "zip",
+          dataFileContent: zipFileBase64);
+      return zipFileModel;
+    }
+    return FileModel(fileName: "", fileExt: "", dataFileContent: "");
+  }
+
+  Future<String> createFolder(String cow) async {
+    final dir = Directory(
+        '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
+                : await getApplicationDocumentsDirectory() //FOR IOS
+            )!.path}/$cow');
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+    if ((await dir.exists())) {
+      return dir.path;
+    } else {
+      dir.create();
+      return dir.path;
+    }
+  }
 }
