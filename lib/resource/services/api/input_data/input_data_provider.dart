@@ -60,7 +60,7 @@ class InputDataProvider extends GetConnect {
     }
   }
 
-  Future<Response> getCheckVersion() async {
+  Future<Response>  getCheckVersion() async {
     String loginData0 = AppPref.loginData;
     var json = jsonDecode(loginData0);
     TokenModel loginData = TokenModel.fromJson(json);

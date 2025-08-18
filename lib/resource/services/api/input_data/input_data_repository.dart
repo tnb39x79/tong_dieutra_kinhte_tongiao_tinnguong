@@ -31,7 +31,7 @@ class InputDataRepository {
     if (NetworkService.connectionType == Network.none) {
       return ResponseModel.withDisconnect();
     }
-    final data = await provider.getData();
+    final data = await provider.getCheckVersion();
     if (data.statusCode == ApiConstants.success) {
       return ResponseModel(
         statusCode: ApiConstants.success,
