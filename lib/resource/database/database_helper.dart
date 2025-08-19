@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:gov_tongdtkt_tongiao/resource/database/provider/ct_dm_hoatdong_logistic_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_bkcoso_sxkd_nganh_sanpham_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_cokhong_provider.dart';
 import 'package:gov_tongdtkt_tongiao/resource/database/provider/dm_dantoc_provider.dart';
@@ -46,6 +47,7 @@ class DatabaseHelper {
   final tgDmXepHangProvider = TGDmXepHangProvider();
   final tgDmXepHangDiTichProvider = TGDmXepHangDiTichProvider();
   final tgDmLoaiTonGiaoProvider = TGDmLoaiTonGiaoProvider();
+  final ctDmHoatDongLogisticProvider = CTDmHoatDongLogisticProvider();
 
   final phieuTonGiaoProvider = PhieuTonGiaoProvider();
   final phieuTonGiaoA43Provider = PhieuTonGiaoA43Provider();
@@ -80,10 +82,10 @@ class DatabaseHelper {
     );
   }
 
- String getMyDatabaseName() {
+  String getMyDatabaseName() {
     return _databaseName;
   }
-  
+
   // get path location database
   Future<String> getMyDatabasePath() async {
     // Get a location using getDatabasesPath
@@ -143,7 +145,8 @@ class DatabaseHelper {
       tgDmTrinhDoChuyenMonProvider.onCreateTable(db),
       tgDmXepHangProvider.onCreateTable(db),
       tgDmXepHangDiTichProvider.onCreateTable(db),
-      tgDmLoaiTonGiaoProvider.onCreateTable(db)
+      tgDmLoaiTonGiaoProvider.onCreateTable(db),
+      ctDmHoatDongLogisticProvider.onCreateTable(db),
     ]);
 
     // phieu tôn giáo
@@ -189,6 +192,7 @@ class DatabaseHelper {
     await tgDmLoaiTonGiaoProvider.deletedTable(db);
     await phieuTonGiaoProvider.deletedTable(db);
     await phieuTonGiaoA43Provider.deletedTable(db);
+    await ctDmHoatDongLogisticProvider.deletedTable(db);
 
     // phieu ton giao
     await phieuTonGiaoProvider.deletedTable(db);

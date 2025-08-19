@@ -82,7 +82,7 @@ class DownloadModelAIScreen extends GetView<DownloadModelAIController> {
             ),
             backgroundColor: Colors.grey.shade300,
             circularStrokeCap: CircularStrokeCap.round,
-            progressColor: const Color.fromARGB(255, 34, 187, 51),
+            progressColor: successColor,
           ),
           const SizedBox(
             height: 32,
@@ -160,7 +160,6 @@ class DownloadModelAIScreen extends GetView<DownloadModelAIController> {
       msgText = Text(controller.messageResult.value,
           style: const TextStyle(color: Color.fromARGB(255, 4, 111, 15)));
       iconRes = const Icon(
-        
         Icons.check_circle_outline,
         color: Color.fromARGB(255, 4, 111, 15),
         size: 32,

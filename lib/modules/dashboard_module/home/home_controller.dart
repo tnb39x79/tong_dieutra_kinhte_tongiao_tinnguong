@@ -86,7 +86,7 @@ class HomeController extends BaseController with SyncMixin {
   final xacNhanLogicProvider = XacNhanLogicProvider();
  
   final ctDmHoatDongLogisticProvider = CTDmHoatDongLogisticProvider(); 
-  final ctDmNhomNganhVcpaProvider = CTDmNhomNganhVcpaProvider(); 
+//  final ctDmNhomNganhVcpaProvider = CTDmNhomNganhVcpaProvider(); 
   final dmMotaSanphamProvider = DmMotaSanphamProvider();
   final dmLinhvucProvider = DmLinhvucProvider();
 
@@ -384,9 +384,9 @@ class HomeController extends BaseController with SyncMixin {
       await insertIntoTableCoSoSxkdVaTonGiao(data.body!.data, dtSaveDB);
       if (data.body!.hasDm == '1') {
         await insertDanhMucChung(data.body!, dtSaveDB);
-        //  await insertDanhMucPhieuMau(data.body!, dtSaveDB);
+          await insertDanhMucLogistic(data.body!, dtSaveDB);
         await insertDanhMucTonGiao(data.body!, dtSaveDB);
-        await insertDmNhomNganhVcpa();
+      //  await insertDmNhomNganhVcpa();
         await insertDanhMucMoTaSanPham(data.body!, dtSaveDB);
       }
 
@@ -562,7 +562,7 @@ class HomeController extends BaseController with SyncMixin {
     // }
   }
 
-  Future insertDanhMucPhieuMau(DataModel bodyData, String dtSaveDB) async {
+  Future insertDanhMucLogistic(DataModel bodyData, String dtSaveDB) async {
    
     List<TableCTDmHoatDongLogistic> dmHoatDongLogistic =
         TableData.toListCTDmHoatDongLogistics(bodyData.ctDmHoatDongLogistic);
@@ -570,18 +570,18 @@ class HomeController extends BaseController with SyncMixin {
     await ctDmHoatDongLogisticProvider.insert(dmHoatDongLogistic, dtSaveDB); 
   }
 
-  Future insertDmNhomNganhVcpa() async {
-    var countRes = await ctDmNhomNganhVcpaProvider.countAll();
-    if (countRes <= 0) {
-      final String response =
-          await rootBundle.loadString('assets/datavc/nhomnganhvcpa.json');
+  // Future insertDmNhomNganhVcpa() async {
+  //   var countRes = await ctDmNhomNganhVcpaProvider.countAll();
+  //   if (countRes <= 0) {
+  //     final String response =
+  //         await rootBundle.loadString('assets/datavc/nhomnganhvcpa.json');
 
-      List<dynamic> dataC8 = await json.decode(response);
+  //     List<dynamic> dataC8 = await json.decode(response);
 
-      await ctDmNhomNganhVcpaProvider.insertNhomNganhVcpa(dataC8, '');
-      AppPref.savedNhomNganhVcpa = true;
-    }
-  }
+  //     await ctDmNhomNganhVcpaProvider.insertNhomNganhVcpa(dataC8, '');
+  //     AppPref.savedNhomNganhVcpa = true;
+  //   }
+  // }
 
   Future insertDanhMucTonGiao(DataModel bodyData, String dtSaveDB) async {
     // if (AppPref.isFistInstall == 0) {
@@ -680,15 +680,11 @@ class HomeController extends BaseController with SyncMixin {
 
     ///DM Phiếu 07 mau 
     await ctDmHoatDongLogisticProvider.init(); 
-    await ctDmNhomNganhVcpaProvider.init();
+   // await ctDmNhomNganhVcpaProvider.init();
     await dmMotaSanphamProvider.init();
     await dmLinhvucProvider.init();
 
-    ///Phiếu 07 mau
-    await phieuMauProvider.init();
-    await phieuMauA61Provider.init();
-    await phieuMauA68Provider.init();
-    await phieuMauSanphamProvider.init();
+  
 
     ///DM Phiếu 08 ton giao
     await tgDmCapCongNhanProvider.init();
