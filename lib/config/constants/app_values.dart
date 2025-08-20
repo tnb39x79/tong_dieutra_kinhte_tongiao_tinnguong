@@ -9,7 +9,7 @@ class AppValues {
       'gov.tongdtkt.tongiao'; // get from ios/Runner/Info.plist
   static const versionApp = '1.0.0';
   static const versionDanhMuc = '1.0.0';
-  static const urlStore = "";
+  static const urlStore = "https://apps.apple.com/app/t%E1%BB%95ng-%C4%91i%E1%BB%81u-tra-kinh-t%E1%BA%BF-t%C3%B4n-gi%C3%A1o/id6751223230";
   // border
   static const borderLv1 = 6.0;
   static const borderLv2 = 12.0;
